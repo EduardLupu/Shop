@@ -1,6 +1,7 @@
 import '../index.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import {Link} from "react-router-dom";
 export default function Header() {
     return (
         <header>
@@ -9,15 +10,15 @@ export default function Header() {
             </div>
             <nav className="effect-1">
                 <ul className="top-nav">
-                    <li><a href="../../public/index.html">Contact</a></li>
-                    <li><a href="../../public/index.html">About</a></li>
-                    <li className="shopping-cart"><a href="../../public/index.html"><FontAwesomeIcon icon={faCartShopping} /><span className="shopping-cart-count"></span></a>
+                    <li><a>Account</a></li>
+                    <li><a>About</a></li>
+                    <li className="shopping-cart"><Link to="/cart"><FontAwesomeIcon icon={faCartShopping} /><span className="shopping-cart-count"></span></Link>
                         <div className="cart-items-wrapper">
                             <div className="cart-items">
                                 <h3 className="cart-total">TOTAL: $0</h3>
                             </div>
                         </div></li>
-                    <li className="logo"><a href="../../public/index.html">&spades;</a></li>
+                    <li className="logo"><Link to="/">&spades;</Link></li>
                 </ul>
             </nav>
             <div className="promo">

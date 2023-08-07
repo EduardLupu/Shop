@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from 'react';
 import {getProducts} from "../middleware/api";
 
-export function useProducts(limit = 6) {
+export function useProducts(limit) {
     const [products, setProducts] = useState([]);
     const [offset, setOffset] = useState(0);
     const isInitialMount = useRef(true);
@@ -16,7 +16,6 @@ export function useProducts(limit = 6) {
                     console.error('Error fetching products:', error);
                 }
             };
-
             fetchProducts();
             isInitialMount.current = false;
         }
@@ -27,7 +26,7 @@ export function useProducts(limit = 6) {
             const currentHeight =
                 e.target.documentElement.scrollTop + window.innerHeight;
             if (currentHeight + 1 >= scrollHeight) {
-                setOffset(offset + 6);
+                setOffset((prevOffset) => prevOffset + limit);
                 isInitialMount.current = true;
             }
         };
@@ -37,7 +36,7 @@ export function useProducts(limit = 6) {
             window.removeEventListener('scroll', handleScroll);
         }
 
-    }, [limit, offset]);
+    }, [offset]);
     return products;
 }
 

@@ -8,13 +8,14 @@ export function Product({product}) {
     useEffect(() => {
         const productContainer = productContainerRef.current;
         const handleKeyDown = (event) => {
-            const hoveredProduct = document.querySelector('.hovered');
-            const currentImage = hoveredProduct.querySelector('.product-image[style*="display: block"]');
-            if (event.key === 'ArrowRight') {
-                nextImageInProductGallery(currentImage);
-            }
-            if (event.key === 'ArrowLeft') {
-                previousImageInProductGallery(currentImage);
+            if (productContainer.classList.contains("hovered")) {
+                const currentImage = productContainer.querySelector('.product-image[style*="display: block"]');
+                if (event.key === 'ArrowRight') {
+                    nextImageInProductGallery(currentImage);
+                }
+                if (event.key === 'ArrowLeft') {
+                    previousImageInProductGallery(currentImage);
+                }
             }
         }
         const handleHover = (event) => {

@@ -1,11 +1,13 @@
 import {Product} from "./product";
 import {useProducts} from "../utils/useProducts";
 import {useState} from "react";
-import Filter from "./filter";
 
+import Filter from "./filter";
+import ItemLimit from "./limit";
 export default function Products() {
-    let products = useProducts();
-    const [filterValue, setFilterValue] = useState(""); // State to hold the filter value
+    const [limit, setLimit] = useState(6);
+    const [filterValue, setFilterValue] = useState("");
+    let products = useProducts(limit);
     const handleFilterChange = (value) => {
         setFilterValue(value);
     };
@@ -22,6 +24,7 @@ export default function Products() {
     return (
         <>
             <Filter onFilterChange={handleFilterChange}/>
+            <ItemLimit limit={limit} onLimitChange={setLimit} />
             <div className="products">
                 {
                     filteredProducts.map((product) => (
