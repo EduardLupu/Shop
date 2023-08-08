@@ -1,0 +1,9 @@
+.product-page {
+    margin-inline: auto;
+    max-width: 90rem;
+    width: 45rem;
+    grid-gap: 3rem;
+    grid-row-gap: 5rem;
+    justify-content: center;
+    padding: 5rem;
+}

@@ -10,7 +10,7 @@ export default function Header() {
             </div>
             <nav className="effect-1">
                 <ul className="top-nav">
-                    <li><a>Account</a></li>
+                    <li><Link to="/account">Account</Link></li>
                     <li><a>About</a></li>
                     <li className="shopping-cart"><Link to="/cart"><FontAwesomeIcon icon={faCartShopping} /><span className="shopping-cart-count"></span></Link>
                         <div className="cart-items-wrapper">

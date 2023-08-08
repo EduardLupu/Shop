@@ -1,12 +1,30 @@
 import {useEffect, useRef} from "react";
 import {nextImageInProductGallery, previousImageInProductGallery} from "../utils/gallery";
+import {Link} from "react-router-dom";
 
 export function Product({product}) {
 
     const productContainerRef = useRef(null);
 
+
     useEffect(() => {
         const productContainer = productContainerRef.current;
+        const button = productContainer.querySelector(".product-button");
+        const handleButtonClick = (event) => {
+            const popUpContainer = document.querySelector(".pop-up");
+            popUpContainer.style.display = 'flex';
+            button.style.pointerEvents = 'none';
+
+
+
+            button.innerText = 'Added to cart';
+            setTimeout(() => {
+                popUpContainer.style.display = 'none';
+                button.innerText = 'Add to cart';
+                button.style.pointerEvents = 'all';
+            }, 2000);
+
+        }
         const handleKeyDown = (event) => {
             if (productContainer.classList.contains("hovered")) {
                 const currentImage = productContainer.querySelector('.product-image[style*="display: block"]');
@@ -44,9 +62,10 @@ export function Product({product}) {
         const arrowLeft = productContainer.querySelector(".arrow-left");
         arrowRight.addEventListener("click", handleArrowClick);
         arrowLeft.addEventListener("click", handleArrowClick);
-
+        button.addEventListener("click", handleButtonClick);
 
         return () => {
+            button.removeEventListener("click", handleButtonClick);
             productContainer.removeEventListener("mouseover", handleHover);
             productContainer.removeEventListener("mouseout", handleHover);
             arrowRight.removeEventListener("click", handleArrowClick);
@@ -60,9 +79,11 @@ export function Product({product}) {
 
     return (
         <div className="products-item" ref={productContainerRef}>
+            <Link to={`/shop/${product.id}`}>
             <div className="product-images">
                 {product.images.map((image, index) => <img style={{ display: index === 0 ? "block" : "none" }} className="product-image" key={image} src={image} alt={product.title} />)}
             </div>
+            </Link>
             <div className="arrow-left"></div>
             <div className="arrow-right"></div>
             <h2 className="product-title">{product.title}</h2>
