@@ -1,11 +1,11 @@
 import {useEffect, useRef} from "react";
 import {nextImageInProductGallery, previousImageInProductGallery} from "../utils/gallery";
 import {Link} from "react-router-dom";
+import {fetchAddProductToCart} from "../middleware/api";
 
 export function Product({product}) {
 
     const productContainerRef = useRef(null);
-
 
     useEffect(() => {
         const productContainer = productContainerRef.current;
@@ -15,7 +15,8 @@ export function Product({product}) {
             popUpContainer.style.display = 'flex';
             button.style.pointerEvents = 'none';
 
-
+            fetchAddProductToCart(product.id);
+            localStorage.removeItem('cart')
 
             button.innerText = 'Added to cart';
             setTimeout(() => {

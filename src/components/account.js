@@ -20,18 +20,6 @@ function Account() {
                     <p>
                         <strong>{localStorage.getItem('user-token')}</strong>
                     </p>
-                    <p>
-                        <strong>Email:</strong>
-                    </p>
-                    <p>
-                        <strong></strong>
-                    </p>
-                    <p>
-                        <strong>Password:</strong>
-                    </p>
-                    <p>
-                        <strong></strong>
-                    </p>
                     <button className="logout-button" onClick={handleLogout}>Logout</button>
                 </div>
             </div>

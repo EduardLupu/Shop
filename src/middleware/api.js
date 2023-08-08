@@ -13,7 +13,7 @@ export async function getProduct(id) {
     return await response.json();
 }
 
-const token = localStorage.getItem('user-token');
+const token =  localStorage.getItem('user-token');
 export async function fetchAddProductToCart(productID, quantity = 1) {
     await fetch(`https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`, {
         method: 'POST',
@@ -63,7 +63,13 @@ export async function fetchDeleteProductFromCart(productID) {
 export async function initCartProducts() {
     let cartProducts;
     if (localStorage.getItem('cart') === null) {
-        const response = await fetch(API_INTERNAL_CART_GET);
+        const response = await fetch(API_INTERNAL_CART_GET, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Internship-Auth': `${token}`,
+            }
+        });
         cartProducts = await response.json();
         localStorage.setItem('cart', JSON.stringify(cartProducts));
     } else {
