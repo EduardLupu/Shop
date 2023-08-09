@@ -43,22 +43,21 @@ const Login = () => {
         return valid;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (validateForm()) {
             const button = document.querySelector('.login-submit');
             button.disabled = true;
-            login(formData.username, formData.password).then((res) => {
-                if (res.token) {
-                    localStorage.setItem('user-token', res.token);
-                    window.location.href = '/shop';
-                    alert('Login successful')
-                } else {
-                    alert(res.error);
-                }
-                button.disabled = false;
-            });
+            const response = await login(formData.username, formData.password);
+            if (response?.token) {
+                const token = response.token;
+                localStorage.setItem('user-token', token);
+                window.location.href = '/shop';
+            }
+            else {
+                alert('Invalid username or password');
+            }
+            button.disabled = false;
         }
     };
 

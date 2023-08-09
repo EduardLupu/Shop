@@ -70,7 +70,7 @@ export default function Header() {
             <nav className="effect-1">
                 <ul className="top-nav">
                     <li><Link to="/account">Account</Link></li>
-                    <li><Link to="/">About</Link></li>
+                    <li><Link to="/">Home</Link></li>
                     <li className="shopping-cart"><Link to="/cart"><FontAwesomeIcon icon={faCartShopping} /><span className="shopping-cart-count"></span></Link>
                         <div className="cart-items-wrapper">
                             <div className="cart-items">
