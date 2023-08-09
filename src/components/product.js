@@ -2,30 +2,40 @@ import {useEffect, useRef} from "react";
 import {nextImageInProductGallery, previousImageInProductGallery} from "../utils/gallery";
 import {Link} from "react-router-dom";
 import {fetchAddProductToCart} from "../middleware/api";
+import {useLogin} from "../utils/useLogin";
 
 export function Product({product, context}) {
     const productContainerRef = useRef(null);
+    // eslint-disable-next-line no-unused-vars
     const {total, setTotal, totalQuantity, setTotalQuantity} = context;
+
+    const {isLoggedIn} = useLogin();
 
     useEffect(() => {
         const productContainer = productContainerRef.current;
         const button = productContainer.querySelector(".product-button");
-        const handleButtonClick = (event) => {
-            fetchAddProductToCart(product.id)
-                .then(() => {
-                    const popUpContainer = document.querySelector(".pop-up");
-                    popUpContainer.style.display = 'flex';
-                    button.style.pointerEvents = 'none';
-                    setTotal((prevTotal) => prevTotal + product.price);
-                    setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
-                    localStorage.removeItem('cart')
-                    button.innerText = 'Added to cart';
-                    setTimeout(() => {
-                        popUpContainer.style.display = 'none';
-                        button.innerText = 'Add to cart';
-                        button.style.pointerEvents = 'all';
-                    }, 2000);
-            });
+
+        const handleButtonClick = () => {
+            if (isLoggedIn) {
+                fetchAddProductToCart(product.id)
+                    .then(() => {
+                        const popUpContainer = document.querySelector(".pop-up");
+                        popUpContainer.style.display = 'flex';
+                        button.style.pointerEvents = 'none';
+                        setTotal((prevTotal) => prevTotal + product.price);
+                        setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
+                        localStorage.removeItem('cart')
+                        button.innerText = 'Added to cart';
+                        setTimeout(() => {
+                            popUpContainer.style.display = 'none';
+                            button.innerText = 'Add to cart';
+                            button.style.pointerEvents = 'all';
+                        }, 2000);
+                    });
+            }
+            else {
+                alert("You must be logged in to add products to cart!")
+            }
         }
         const handleKeyDown = (event) => {
             if (productContainer.classList.contains("hovered")) {

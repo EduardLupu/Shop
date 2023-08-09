@@ -4,14 +4,15 @@ import Home from "./components/home";
 import Shop from "./components/shop";
 import Cart from "./components/cart";
 import Login from "./components/login";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import Account from "./components/account";
 import ProductPage from "./components/productPage";
 import checkUserToken from "./utils/checkIfLogged";
+import {useLogin} from "./utils/useLogin";
 
 function App() {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const {isLoggedIn, setIsLoggedIn} = useLogin();
 
     useEffect(() => {
         setIsLoggedIn(checkUserToken());

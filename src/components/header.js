@@ -5,59 +5,62 @@ import {Link} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {useCart} from "../utils/globalStates";
 import {initCartProducts} from "../middleware/api";
+import {useLogin} from "../utils/useLogin";
 export default function Header() {
     const {total, setTotal, totalQuantity, setTotalQuantity} = useCart();
     const [cartProducts, setCartProducts] = useState([]);
 
     const isMounted = useRef(false);
+    const {isLoggedIn, setIsLoggedIn} = useLogin();
 
     useEffect(() => {
-        async function fetchData() {
-            const cart = await initCartProducts();
+        if (isLoggedIn) {
+            async function fetchData() {
+                const cart = await initCartProducts();
 
-            if (cart === null) {
-                return false;
+                if (cart === null) {
+                    return false;
+                }
+
+                setCartProducts(cart.products);
+                setTotal(cart.total)
+                setTotalQuantity(cart.totalQuantity)
+                return true;
             }
 
-            setCartProducts(cart.products);
-            setTotal(cart.total)
-            setTotalQuantity(cart.totalQuantity)
-            return true;
-        }
+            fetchData().then((result) => {
+                if (result === false) {
+                    return () => {
+                    };
+                }
+            });
+            isMounted.current = true;
 
-        fetchData().then((result) => {
-            if (result === false) {
-                return () => {
-                };
+            if (totalQuantity >= 1) {
+                const shoppingCartCount = document.querySelector('.shopping-cart-count');
+                shoppingCartCount.innerText = totalQuantity;
+                shoppingCartCount.style.display = 'flex';
             }
-        });
-        isMounted.current = true;
 
-        if (totalQuantity >= 1) {
-            const shoppingCartCount = document.querySelector('.shopping-cart-count');
-            shoppingCartCount.innerText = totalQuantity;
-            shoppingCartCount.style.display = 'flex';
+            const cart = document.querySelector('.shopping-cart');
+            const cartProductsContainer = document.querySelector('.cart-items');
+
+            const handleMouseOver = () => {
+                cartProductsContainer.style.display = 'flex';
+            }
+            const handleMouseOut = () => {
+                cartProductsContainer.style.display = 'none';
+            }
+
+            cart.addEventListener('mouseover', handleMouseOver);
+            cart.addEventListener('mouseout', handleMouseOut);
+
+            return () => {
+                cart.removeEventListener('mouseover', handleMouseOver);
+                cart.removeEventListener('mouseout', handleMouseOut);
+            }
         }
-
-        const cart = document.querySelector('.shopping-cart');
-        const cartProductsContainer = document.querySelector('.cart-items');
-
-        const handleMouseOver = () => {
-            cartProductsContainer.style.display = 'flex';
-        }
-        const handleMouseOut = () => {
-            cartProductsContainer.style.display = 'none';
-        }
-
-        cart.addEventListener('mouseover', handleMouseOver);
-        cart.addEventListener('mouseout', handleMouseOut);
-
-        return () => {
-            cart.removeEventListener('mouseover', handleMouseOver);
-            cart.removeEventListener('mouseout', handleMouseOut);
-        }
-
-    }, [totalQuantity, total]);
+    }, [totalQuantity, total, isLoggedIn]);
 
     return (
         <header>
@@ -67,7 +70,7 @@ export default function Header() {
             <nav className="effect-1">
                 <ul className="top-nav">
                     <li><Link to="/account">Account</Link></li>
-                    <li><a>About</a></li>
+                    <li><Link to="/">About</Link></li>
                     <li className="shopping-cart"><Link to="/cart"><FontAwesomeIcon icon={faCartShopping} /><span className="shopping-cart-count"></span></Link>
                         <div className="cart-items-wrapper">
                             <div className="cart-items">
