@@ -217,6 +217,8 @@ ul.top-nav li.icon {
     height: 5rem;
     font-size: 2rem;
     align-self: end;
+    background-color: inherit;
+    border-top: 1px solid black;
 }
 
 .product-button:hover {
@@ -234,7 +236,7 @@ ul.top-nav li.icon {
     text-align: center;
     font-family: 'Roboto', sans-serif;
     color: crimson;
-    font-size: 3rem;
+    font-size: 3.3rem;
     font-weight: bold;
 }
 
@@ -257,13 +259,14 @@ ul.top-nav li.icon {
 .product-rating {
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    margin-top: 0;
+    margin-top: 2rem;
     font-size: 1.2rem;
+
 }
 
 .star-rating {
     --percent: calc(var(--rating) / 5 * 100%);
-    font-size: 2rem;
+    font-size: 2.3rem;
     font-family: sans-serif;
     line-height: 1;
 }
@@ -370,7 +373,7 @@ ul.top-nav li.icon {
 .cart-items {
     display: none;
     position: absolute;
-    flex-direction: column-reverse;
+    flex-direction: column;
     right: 50%;
     top: 100%;
     margin-top: 1px;
