@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {nextImageInProductGallery, previousImageInProductGallery} from "../utils/gallery";
 import {Link} from "react-router-dom";
 import {fetchAddProductToCart} from "../middleware/api";
