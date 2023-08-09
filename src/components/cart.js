@@ -45,7 +45,7 @@ function Cart() {
 
     return (
         <div className="cart-page">
-            <Link to="/shop"><h1 className="logo">&spades;</h1></Link>
+            <Link to="/shop"><h1 className="account-logo">&spades;</h1></Link>
             <div className="cart-page-items">
                 {cartProducts.map((product) => (<CartItem key={product.id} product={product}
                                                           onAdd={handleAdd} onRemove={handleRemove}

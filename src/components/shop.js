@@ -1,12 +1,14 @@
-import Home from "./home";
 import Header from "./header";
 import Products from "./products";
+import {CartProvider} from "../utils/globalStates";
 
 function Shop() {
     return (
         <>
-            <Header/>
-            <Products/>
+            <CartProvider>
+                <Header/>
+                <Products/>
+            </CartProvider>
         </>
     );
 }

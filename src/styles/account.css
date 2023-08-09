@@ -1,14 +1,12 @@
 .account-container {
     position: absolute;
-    top: 5.5%;
     width: 100%;
-    z-index: 1000;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-family: 'Roboto', sans-serif;
-    height: 94.5vh;
+    height: 100vh;
     background-image: url("../assets/images/bg.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -37,3 +35,19 @@
     font-size: 1.5rem;
 }
 
+.account-page-logo {
+    position: fixed;
+    z-index: 1;
+    font-size: 7rem;
+    left: 3rem;
+    top: 0;
+    margin: 0;
+}
+
+.account-page-logo a:visited {
+    color: white;
+}
+
+.account-page-logo a:hover {
+    color: crimson;
+}

@@ -1,11 +1,11 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {nextImageInProductGallery, previousImageInProductGallery} from "../utils/gallery";
 import {Link} from "react-router-dom";
 import {fetchAddProductToCart} from "../middleware/api";
 
-export function Product({product}) {
-
+export function Product({product, context}) {
     const productContainerRef = useRef(null);
+    const {total, setTotal, totalQuantity, setTotalQuantity} = context;
 
     useEffect(() => {
         const productContainer = productContainerRef.current;
@@ -14,6 +14,9 @@ export function Product({product}) {
             const popUpContainer = document.querySelector(".pop-up");
             popUpContainer.style.display = 'flex';
             button.style.pointerEvents = 'none';
+
+            setTotal((prevTotal) => prevTotal + product.price);
+            setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
 
             fetchAddProductToCart(product.id);
             localStorage.removeItem('cart')

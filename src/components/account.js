@@ -1,6 +1,6 @@
 
 import '../styles/account.css';
-import Header from "./header";
+import {Link} from "react-router-dom";
 function Account() {
 
     const handleLogout = () => {
@@ -10,7 +10,7 @@ function Account() {
 
     return (
         <>
-            <Header/>
+            <p className="account-page-logo"><Link to="/">&spades;</Link></p>
             <div className="account-container">
                 <h2>Your Account</h2>
                 <div className="account-details">
