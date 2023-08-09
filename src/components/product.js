@@ -11,23 +11,21 @@ export function Product({product, context}) {
         const productContainer = productContainerRef.current;
         const button = productContainer.querySelector(".product-button");
         const handleButtonClick = (event) => {
-            const popUpContainer = document.querySelector(".pop-up");
-            popUpContainer.style.display = 'flex';
-            button.style.pointerEvents = 'none';
-
-            setTotal((prevTotal) => prevTotal + product.price);
-            setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
-
-            fetchAddProductToCart(product.id);
-            localStorage.removeItem('cart')
-
-            button.innerText = 'Added to cart';
-            setTimeout(() => {
-                popUpContainer.style.display = 'none';
-                button.innerText = 'Add to cart';
-                button.style.pointerEvents = 'all';
-            }, 2000);
-
+            fetchAddProductToCart(product.id)
+                .then(() => {
+                    const popUpContainer = document.querySelector(".pop-up");
+                    popUpContainer.style.display = 'flex';
+                    button.style.pointerEvents = 'none';
+                    setTotal((prevTotal) => prevTotal + product.price);
+                    setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
+                    localStorage.removeItem('cart')
+                    button.innerText = 'Added to cart';
+                    setTimeout(() => {
+                        popUpContainer.style.display = 'none';
+                        button.innerText = 'Add to cart';
+                        button.style.pointerEvents = 'all';
+                    }, 2000);
+            });
         }
         const handleKeyDown = (event) => {
             if (productContainer.classList.contains("hovered")) {

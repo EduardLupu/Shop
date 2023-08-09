@@ -15,21 +15,30 @@ export async function getProduct(id) {
 
 const token =  localStorage.getItem('user-token');
 export async function fetchAddProductToCart(productID, quantity = 1) {
-    await fetch(`https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`, {
-        method: 'POST',
+    try {
+        const response = await fetch(`https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Internship-Auth': `${token}`
             },
-        body: JSON.stringify({
-            userId: 1,
-            products: [
-                {
-                    id: productID,
-                    quantity: quantity
-                }]
-        })
-    }).then(res => res.json())
+            body: JSON.stringify({
+                userId: 1,
+                products: [
+                    {
+                        id: productID,
+                        quantity: quantity
+                    }]
+            })
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return await response.json();
+    }
+    catch (error) {
+        console.error('Error adding product to cart:', error);
+    }
 }
 
 export async function fetchRemoveProductFromCart(productID, quantity = -1) {
@@ -70,6 +79,9 @@ export async function initCartProducts() {
                 'Internship-Auth': `${token}`,
             }
         });
+        if (response.status !== 200) {
+            return null;
+        }
         cartProducts = await response.json();
         localStorage.setItem('cart', JSON.stringify(cartProducts));
     } else {

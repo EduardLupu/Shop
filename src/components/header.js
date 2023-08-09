@@ -2,23 +2,36 @@ import '../index.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import {Link} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useCart} from "../utils/globalStates";
 import {initCartProducts} from "../middleware/api";
 export default function Header() {
     const {total, setTotal, totalQuantity, setTotalQuantity} = useCart();
     const [cartProducts, setCartProducts] = useState([]);
 
-    useEffect(() => {
+    const isMounted = useRef(false);
 
+    useEffect(() => {
         async function fetchData() {
             const cart = await initCartProducts();
+
+            if (cart === null) {
+                return false;
+            }
+
             setCartProducts(cart.products);
             setTotal(cart.total)
             setTotalQuantity(cart.totalQuantity)
+            return true;
         }
 
-        fetchData();
+        fetchData().then((result) => {
+            if (result === false) {
+                return () => {
+                };
+            }
+        });
+        isMounted.current = true;
 
         if (totalQuantity >= 1) {
             const shoppingCartCount = document.querySelector('.shopping-cart-count');
@@ -44,7 +57,7 @@ export default function Header() {
             cart.removeEventListener('mouseout', handleMouseOut);
         }
 
-    }, [totalQuantity]);
+    }, [totalQuantity, total]);
 
     return (
         <header>
