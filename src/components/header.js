@@ -5,46 +5,50 @@ import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useCart} from "../utils/globalStates";
 import {initCartProducts} from "../middleware/api";
+import checkUserToken from "../utils/checkIfLogged";
 export default function Header() {
     const {total, setTotal, totalQuantity, setTotalQuantity} = useCart();
     const [cartProducts, setCartProducts] = useState([]);
+    const [isLogged, setIsLogged] = useState(false);
 
     useEffect(() => {
+        setIsLogged(checkUserToken());
+        if (isLogged) {
+            async function fetchData() {
+                const cart = await initCartProducts();
+                setCartProducts(cart.products);
+                setTotal(cart.total)
+                setTotalQuantity(cart.totalQuantity)
+            }
 
-        async function fetchData() {
-            const cart = await initCartProducts();
-            setCartProducts(cart.products);
-            setTotal(cart.total)
-            setTotalQuantity(cart.totalQuantity)
+            fetchData();
+
+            if (totalQuantity >= 1) {
+                const shoppingCartCount = document.querySelector('.shopping-cart-count');
+                shoppingCartCount.innerText = totalQuantity;
+                shoppingCartCount.style.display = 'flex';
+            }
+
+            const cart = document.querySelector('.shopping-cart');
+            const cartProductsContainer = document.querySelector('.cart-items');
+
+            const handleMouseOver = () => {
+                cartProductsContainer.style.display = 'flex';
+            }
+            const handleMouseOut = () => {
+                cartProductsContainer.style.display = 'none';
+            }
+
+            cart.addEventListener('mouseover', handleMouseOver);
+            cart.addEventListener('mouseout', handleMouseOut);
+
+            return () => {
+                cart.removeEventListener('mouseover', handleMouseOver);
+                cart.removeEventListener('mouseout', handleMouseOut);
+            }
         }
 
-        fetchData();
-
-        if (totalQuantity >= 1) {
-            const shoppingCartCount = document.querySelector('.shopping-cart-count');
-            shoppingCartCount.innerText = totalQuantity;
-            shoppingCartCount.style.display = 'flex';
-        }
-
-        const cart = document.querySelector('.shopping-cart');
-        const cartProductsContainer = document.querySelector('.cart-items');
-
-        const handleMouseOver = () => {
-            cartProductsContainer.style.display = 'flex';
-        }
-        const handleMouseOut = () => {
-            cartProductsContainer.style.display = 'none';
-        }
-
-        cart.addEventListener('mouseover', handleMouseOver);
-        cart.addEventListener('mouseout', handleMouseOut);
-
-        return () => {
-            cart.removeEventListener('mouseover', handleMouseOver);
-            cart.removeEventListener('mouseout', handleMouseOut);
-        }
-
-    }, [totalQuantity]);
+    }, [totalQuantity, isLogged]);
 
     return (
         <header>

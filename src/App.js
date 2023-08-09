@@ -7,20 +7,14 @@ import Login from "./components/login";
 import {useEffect, useState} from "react";
 import Account from "./components/account";
 import ProductPage from "./components/productPage";
+import checkUserToken from "./utils/checkIfLogged";
 
 function App() {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const checkUserToken = () => {
-        const userToken = localStorage.getItem('user-token');
-        if (!userToken || userToken === 'undefined') {
-            setIsLoggedIn(false);
-            return;
-        }
-        setIsLoggedIn(true);
-    }
+
     useEffect(() => {
-        checkUserToken();
+        setIsLoggedIn(checkUserToken());
     }, [isLoggedIn]);
 
 
