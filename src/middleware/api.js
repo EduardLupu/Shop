@@ -75,9 +75,7 @@ export async function initCartProducts() {
     } else {
         cartProducts = JSON.parse(localStorage.getItem('cart'));
     }
-    return cartProducts.products;
-    // updateCartCount();
-    // updateCartTotal(cartProducts.total);
+    return cartProducts;
 }
 
 

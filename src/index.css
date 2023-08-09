@@ -390,8 +390,6 @@ ul.top-nav li.icon {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
     height: 5rem;
     width: 90%;
     padding: 0 1rem 0 1rem;
@@ -410,7 +408,6 @@ ul.top-nav li.icon {
 .cart-total {
     font-size: 1.6rem;
     font-family: 'Roboto', sans-serif;
-    border-top: 1px solid black;
     margin-left: auto;
 }
 
