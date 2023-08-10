@@ -13,10 +13,8 @@ function CartItem({product, onDelete, onAdd, onRemove}) {
         onAdd(product);
         localStorage.removeItem('cart')
         setQuantity((prevQuantity) => prevQuantity + 1);
-        fetchAddProductToCart(product.id, 1).then(
-            () => plusRef.current.disabled = false
-        );
-
+        fetchAddProductToCart(product.id, 1);
+        plusRef.current.disabled = false
     }
 
     const handleMinusClick = () => {
@@ -29,9 +27,8 @@ function CartItem({product, onDelete, onAdd, onRemove}) {
             onRemove(product);
             localStorage.removeItem('cart')
             setQuantity((prevQuantity) => prevQuantity - 1);
-            fetchRemoveProductFromCart(product.id, -1).then(
-                () => minusRef.current.disabled = false
-            );
+            fetchRemoveProductFromCart(product.id, -1);
+            minusRef.current.disabled = false;
         }
     }
 

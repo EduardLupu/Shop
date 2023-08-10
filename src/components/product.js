@@ -19,23 +19,22 @@ export function Product({product}) {
 
         const handleButtonClick = () => {
             if (isLoggedIn) {
+                const popUpContainer = document.querySelector(".pop-up");
+                popUpContainer.style.display = 'flex';
+                button.style.pointerEvents = 'none';
+                const newTotal = total + product.price;
+                const newTotalQuantity = totalQuantity + 1;
+                dispatch(setTotal(newTotal));
+                dispatch(setTotalQuantity(newTotalQuantity));
+                button.innerText = 'Added to cart';
                 fetchAddProductToCart(product.id)
-                    .then(() => {
-                        const popUpContainer = document.querySelector(".pop-up");
-                        popUpContainer.style.display = 'flex';
-                        button.style.pointerEvents = 'none';
-                        const newTotal = total + product.price;
-                        const newTotalQuantity = totalQuantity + 1;
-                        dispatch(setTotal(newTotal));
-                        dispatch(setTotalQuantity(newTotalQuantity));
-                        localStorage.removeItem('cart')
-                        button.innerText = 'Added to cart';
-                        setTimeout(() => {
-                            popUpContainer.style.display = 'none';
-                            button.innerText = 'Add to cart';
-                            button.style.pointerEvents = 'all';
-                        }, 2000);
-                    });
+                localStorage.removeItem('cart')
+                setTimeout(() => {
+                    popUpContainer.style.display = 'none';
+                    button.innerText = 'Add to cart';
+                    button.style.pointerEvents = 'all';
+                }, 2000);
+
             }
             else {
                 alert("You must be logged in to add products to cart!")
