@@ -3,15 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import {Link} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
-import {useCart} from "../utils/globalStates";
 import {initCartProducts} from "../middleware/api";
-import {useLogin} from "../utils/useLogin";
+import {useDispatch, useSelector} from "react-redux";
+import {setTotal, setTotalQuantity} from "../app/cartSlice";
 export default function Header() {
-    const {total, setTotal, totalQuantity, setTotalQuantity} = useCart();
+    const {total, totalQuantity} = useSelector(state => state.cart);
+    const isLoggedIn = useSelector(state => state.login.isLoggedIn);
+
+    const dispatch = useDispatch();
+
     const [cartProducts, setCartProducts] = useState([]);
 
     const isMounted = useRef(false);
-    const {isLoggedIn, setIsLoggedIn} = useLogin();
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -23,8 +26,8 @@ export default function Header() {
                 }
 
                 setCartProducts(cart.products);
-                setTotal(cart.total)
-                setTotalQuantity(cart.totalQuantity)
+                dispatch(setTotal(cart.total))
+                dispatch(setTotalQuantity(cart.totalQuantity))
                 return true;
             }
 

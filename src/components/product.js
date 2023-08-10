@@ -1,15 +1,17 @@
 import {useEffect, useRef} from "react";
-import {nextImageInProductGallery, previousImageInProductGallery} from "../utils/gallery";
+import {nextImageInProductGallery, previousImageInProductGallery} from "../utils/photoGallery";
 import {Link} from "react-router-dom";
 import {fetchAddProductToCart} from "../middleware/api";
-import {useLogin} from "../utils/useLogin";
+import {useDispatch, useSelector} from "react-redux";
+import {setTotal, setTotalQuantity} from "../app/cartSlice";
 
-export function Product({product, context}) {
+export function Product({product}) {
     const productContainerRef = useRef(null);
     // eslint-disable-next-line no-unused-vars
-    const {total, setTotal, totalQuantity, setTotalQuantity} = context;
+    const isLoggedIn = useSelector(state => state.login.isLoggedIn);
+    const {total, totalQuantity} = useSelector(state => state.cart);
+    const dispatch = useDispatch();
 
-    const {isLoggedIn} = useLogin();
 
     useEffect(() => {
         const productContainer = productContainerRef.current;
@@ -22,8 +24,10 @@ export function Product({product, context}) {
                         const popUpContainer = document.querySelector(".pop-up");
                         popUpContainer.style.display = 'flex';
                         button.style.pointerEvents = 'none';
-                        setTotal((prevTotal) => prevTotal + product.price);
-                        setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
+                        const newTotal = total + product.price;
+                        const newTotalQuantity = totalQuantity + 1;
+                        dispatch(setTotal(newTotal));
+                        dispatch(setTotalQuantity(newTotalQuantity));
                         localStorage.removeItem('cart')
                         button.innerText = 'Added to cart';
                         setTimeout(() => {

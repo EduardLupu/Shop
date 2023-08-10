@@ -8,14 +8,16 @@ import {useEffect} from "react";
 import Account from "./components/account";
 import ProductPage from "./components/productPage";
 import checkUserToken from "./utils/checkIfLogged";
-import {useLogin} from "./utils/useLogin";
+import {useDispatch, useSelector} from "react-redux";
+import {setIsLoggedIn} from "./app/loginSlice";
 
 function App() {
 
-    const {isLoggedIn, setIsLoggedIn} = useLogin();
+    const isLoggedIn = useSelector(state => state.login.isLoggedIn);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setIsLoggedIn(checkUserToken());
+        dispatch(setIsLoggedIn(checkUserToken()));
     }, [isLoggedIn]);
 
 
@@ -28,7 +30,6 @@ function App() {
                 <Route path="/cart" element={isLoggedIn === true ? <Cart/> : <Login/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/account" element={isLoggedIn === true ? <Account/> : <Login/>}/>
-
                 <Route path="*" element={<h1 style={{fontSize: "15rem"}}>Error 404: Not Found</h1>}/>
                 <Route path="/404" element={<h1 style={{fontSize: "15rem"}}>Error 404: Not Found</h1>}/>
             </Routes>

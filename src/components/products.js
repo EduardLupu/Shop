@@ -4,11 +4,9 @@ import {useState} from "react";
 
 import Filter from "./filter";
 import ItemLimit from "./limit";
-import {useCart} from "../utils/globalStates";
 export default function Products() {
     const [limit, setLimit] = useState(6);
     const [filterValue, setFilterValue] = useState("");
-    const context = useCart();
 
     let products = useProducts(limit);
     const handleFilterChange = (value) => {
@@ -31,7 +29,7 @@ export default function Products() {
             <div className="products">
                 {
                     filteredProducts.map((product) => (
-                        <Product key={product.id} product={product} context={context}/>
+                        <Product key={product.id} product={product}/>
                     ))
                 }
             </div>

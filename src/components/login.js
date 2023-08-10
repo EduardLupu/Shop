@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../styles/login.css';
-import { Link } from 'react-router-dom';
 import {login} from "../middleware/api"
 const Login = () => {
     const [formData, setFormData] = useState({

@@ -1,18 +1,16 @@
 import {useParams} from "react-router-dom";
 import {Product} from "./product";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import '../styles/productPage.css';
 import {Loader} from "./loader";
 import Header from "./header";
 import {getProduct} from "../middleware/api";
-import {useCart} from "../utils/globalStates";
 function ProductPage() {
 
     let {id} = useParams();
     id = parseInt(id);
     const [product, setProduct] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const _context = useCart();
 
     useEffect(() => {
 
@@ -54,7 +52,7 @@ function ProductPage() {
         <>
             <Header/>
             <div className="product-page">
-                {isLoading ? <Loader/> : <Product product={product} context={_context}/>}
+                {isLoading ? <Loader/> : <Product product={product}/>}
             </div>
         </>
     );
