@@ -1,12 +1,18 @@
 # Shop application
 
-I implemented the functionalities of a online shop application using React JS.
+I implemented the functionalities of an online shop application using React JS.
 I used [dummyjson.com](https://dummyjson.com/docs/products) to generate the data for the products.
-The user/login/cart functionalities use a internal API which can only be accessed at my work place office or through a VPN connection.
+The user/login/cart functionalities use an internal API which can only be accessed at my work place office or through a VPN connection.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Photos
 
+![](C:\Users\Lenovo\Desktop\photos\Screenshot_1.png)
+![](C:\Users\Lenovo\Desktop\photos\Screenshot_2.png)
+![](C:\Users\Lenovo\Desktop\photos\Screenshot_3.png)
+![](C:\Users\Lenovo\Desktop\photos\Screenshot_4.png)
+![](C:\Users\Lenovo\Desktop\photos\Screenshot_5.png)
 
 ## Available Scripts
 

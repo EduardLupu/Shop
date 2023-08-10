@@ -38,9 +38,11 @@ function CartItem({product, onDelete, onAdd, onRemove}) {
 
     return (
         <div className="cart-page-item" data-id={product.id}>
-            <img className="cart-page-item-image" src={product.images[0]} alt={product.title}/>
-            <h3 className="cart-page-item-title">{product.title}</h3>
-            <h3 className="cart-page-item-price">${product.price}</h3>
+           <div className="cart-item-info">
+               <img className="cart-page-item-image" src={product.images[0]} alt={product.title}/>
+               <h3 className="cart-page-item-title">{product.title}</h3>
+               <h3 className="cart-page-item-price">${product.price}</h3>
+           </div>
             <div className="edit-container">
                 <button
                     className="cart-page-item-edit-quantity"
