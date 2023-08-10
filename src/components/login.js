@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../styles/login.css';
-import {login} from "../middleware/api"
+
+import { useLoginMutation } from "../app/apiSlice";
+
 const Login = () => {
     const [formData, setFormData] = useState({
         username: '',
@@ -11,6 +13,7 @@ const Login = () => {
         username: '',
         password: '',
     });
+
 
     const validateForm = () => {
         let valid = true;
@@ -42,21 +45,20 @@ const Login = () => {
         return valid;
     };
 
+    const [loginMutation, { isLoading, isError }] = useLoginMutation(); // Destructuring the loginMutation function and states
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            const button = document.querySelector('.login-submit');
-            button.disabled = true;
-            const response = await login(formData.username, formData.password);
-            if (response?.token) {
-                const token = response.token;
-                localStorage.setItem('user-token', token);
-                window.location.href = '/shop';
+            try {
+                const email = formData.username;
+                const response = await loginMutation({email: email, password: formData.password}).unwrap();
+                if (response?.token) {
+                    localStorage.setItem('token', response.token);
+                    window.location.href = '/shop';
+                }
+            } catch (error) {
+                alert(`Error ${error.status}: ${error.data.error}`);
             }
-            else {
-                alert('Invalid username or password');
-            }
-            button.disabled = false;
         }
     };
 

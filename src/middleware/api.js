@@ -1,3 +1,4 @@
+/*
 const API_INTERNAL_CART_ID = '64c3aa50d27ba';
 const API_INTERNAL_CART_GET = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`;
 export async function getProducts(skipPagination, limitPagination) {
@@ -122,3 +123,4 @@ export async function login(email, password) {
 
     return await response.json();
 }
+*/
