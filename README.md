@@ -8,11 +8,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Photos
 
-![](C:\Users\Lenovo\Desktop\photos\Screenshot_1.png)
-![](C:\Users\Lenovo\Desktop\photos\Screenshot_2.png)
-![](C:\Users\Lenovo\Desktop\photos\Screenshot_3.png)
-![](C:\Users\Lenovo\Desktop\photos\Screenshot_4.png)
-![](C:\Users\Lenovo\Desktop\photos\Screenshot_5.png)
+![](photos/Screenshot_1.png)
+![](photos/Screenshot_2.png)
+![](photos/Screenshot_3.png)
+![](photos/Screenshot_4.png)
+![](photos/Screenshot_5.png)
 
 ## Available Scripts
 
