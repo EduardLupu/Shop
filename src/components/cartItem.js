@@ -1,5 +1,8 @@
 import {useRef, useState} from "react";
 import {fetchAddProductToCart, fetchDeleteProductFromCart, fetchRemoveProductFromCart} from "../middleware/api";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
+
 function CartItem({product, onDelete, onAdd, onRemove}) {
 
     const [quantity, setQuantity] = useState(product.quantity);
@@ -18,22 +21,25 @@ function CartItem({product, onDelete, onAdd, onRemove}) {
 
     const handleMinusClick = () => {
         minusRef.current.disabled = true;
-        localStorage.removeItem('cart')
 
         if (quantity === 1) {
-            const id = product.id;
-            onDelete(product);
-            fetchDeleteProductFromCart(id);
-
-
+            handleDeleteClick();
         }
         else {
             onRemove(product);
+            localStorage.removeItem('cart')
             setQuantity((prevQuantity) => prevQuantity - 1);
             fetchRemoveProductFromCart(product.id, -1).then(
                 () => minusRef.current.disabled = false
             );
         }
+    }
+
+    const handleDeleteClick = () => {
+        localStorage.removeItem('cart')
+        const id = product.id;
+        onDelete(product);
+        fetchDeleteProductFromCart(id);
     }
 
     return (
@@ -56,6 +62,7 @@ function CartItem({product, onDelete, onAdd, onRemove}) {
                     onClick={handlePlusClick}
                     ref={plusRef}>+
                 </button>
+                <button className="delete-button" onClick={handleDeleteClick}><FontAwesomeIcon icon={faTrashCan} /></button>
             </div>
         </div>
     )

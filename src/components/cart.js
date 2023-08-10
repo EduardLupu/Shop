@@ -26,9 +26,9 @@ function Cart() {
     }, []);
 
     const handleDelete = (_product) => {
-        setTotalQuantity((prevQuantity) => prevQuantity - 1);
+        setTotalQuantity((prevQuantity) => prevQuantity - _product.quantity);
         setTotalProducts((prevProducts) => prevProducts - 1);
-        setTotal((prevTotal) => prevTotal - _product.price);
+        setTotal((prevTotal) => prevTotal - _product.price * _product.quantity);
         setCartProducts((prevProducts) => prevProducts.filter((product) => product.id !== _product.id));
     }
 

@@ -112,7 +112,7 @@
 
 .edit-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 2rem;
     align-items: center;
     justify-items: center;
@@ -129,5 +129,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 70%;
+    width: 65%;
+}
+
+.delete-button {
+    background-color: transparent;
+    border: none;
+    font-size: 2.5rem;
+    margin-left: 6rem;
+}
+
+.delete-button:hover {
+    color: crimson;
+    cursor: pointer;
 }
