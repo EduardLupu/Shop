@@ -1,18 +1,19 @@
-/*
-const API_INTERNAL_CART_ID = '64c3aa50d27ba';
-const API_INTERNAL_CART_GET = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`;
+
+
 export async function getProducts(skipPagination, limitPagination) {
     const API_GET_PRODUCTS_URL = `https://dummyjson.com/products?limit=${limitPagination}&skip=${skipPagination}&select=id,title,brand,category,description,price,stock,rating,discountPercentage,images`
     const response = await fetch(API_GET_PRODUCTS_URL);
     const responseJSON = await response.json();
     return responseJSON.products;
 }
-
 export async function getProduct(id) {
     const API_GET_PRODUCT_URL = `https://dummyjson.com/products/${id}?select=id,title,brand,category,description,price,stock,rating,discountPercentage,images`;
     const response = await fetch(API_GET_PRODUCT_URL);
     return await response.json();
 }
+
+const API_INTERNAL_CART_ID = '64c3aa50d27ba';
+const API_INTERNAL_CART_GET = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`;
 
 const token =  localStorage.getItem('user-token');
 export async function fetchAddProductToCart(productID, quantity = 1) {
@@ -123,4 +124,4 @@ export async function login(email, password) {
 
     return await response.json();
 }
-*/
+

@@ -1,13 +1,13 @@
 import React from "react";
 import {setLimit} from "../app/itemSlice";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 const ItemLimit = () => {
-
+    const dispatch = useDispatch();
     const {limit} = useSelector((state) => state.item);
     const handleLimitChange = (e) => {
         const newLimit = parseInt(e.target.value);
-        setLimit(newLimit);
+        dispatch(setLimit(newLimit));
     };
 
     return (

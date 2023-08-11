@@ -1,20 +1,16 @@
-/*
 import {useState, useEffect, useRef} from 'react';
-import {useGetProductsQuery} from "../app/apiSlice";
+import {getProducts} from "../middleware/api";
 
 export function useProducts(limit) {
     const [products, setProducts] = useState([]);
     const [offset, setOffset] = useState(0);
     const isInitialMount = useRef(true);
 
-    const { data: productsData, error: productsError, refetch } = useGetProductsQuery(limit, offset);
-
     useEffect(() => {
         if (isInitialMount.current) {
             const fetchProducts = async () => {
                 try {
-
-                    const data = await productsData();
+                    const data = await getProducts(offset, limit);
                     setProducts((prevProducts) => [...prevProducts, ...data]);
                 } catch (error) {
                     console.error('Error fetching products:', error);
@@ -23,6 +19,7 @@ export function useProducts(limit) {
             fetchProducts();
             isInitialMount.current = false;
         }
+
 
         const handleScroll = (e) => {
             const scrollHeight = e.target.documentElement.scrollHeight;
@@ -42,5 +39,3 @@ export function useProducts(limit) {
     }, [offset]);
     return products;
 }
-
-*/
