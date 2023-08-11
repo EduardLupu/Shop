@@ -2,7 +2,7 @@ import {useEffect, useRef} from "react";
 import {nextImageInProductGallery, previousImageInProductGallery} from "../utils/photoGallery";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setTotal, setTotalQuantity} from "../app/cartSlice";
+import {setCartProducts, setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
 import {useAddProductToCartMutation} from "../app/apiSlice";
 
 export function Product({product}) {
@@ -18,25 +18,26 @@ export function Product({product}) {
         const productContainer = productContainerRef.current;
         const button = productContainer.querySelector(".product-button");
 
-        const handleButtonClick = () => {
+        const handleButtonClick = async () => {
             if (isLoggedIn) {
                 const popUpContainer = document.querySelector(".pop-up");
                 popUpContainer.style.display = 'flex';
+
+                const response = await addToCart({id: product.id, quantity: 1});
+                dispatch(setTotal(response.data.data.total));
+                dispatch(setTotalQuantity(response.data.data.totalQuantity));
+                dispatch(setTotalProducts(response.data.data.totalProducts));
+                dispatch(setCartProducts(response.data.data.products));
+
                 button.style.pointerEvents = 'none';
-                const newTotal = total + product.price;
-                const newTotalQuantity = totalQuantity + 1;
-                dispatch(setTotal(newTotal));
-                dispatch(setTotalQuantity(newTotalQuantity));
                 button.innerText = 'Added to cart';
-                addToCart({id: product.id, quantity: 1});
                 setTimeout(() => {
                     popUpContainer.style.display = 'none';
                     button.innerText = 'Add to cart';
                     button.style.pointerEvents = 'all';
                 }, 2000);
 
-            }
-            else {
+            } else {
                 alert("You must be logged in to add products to cart!")
             }
         }

@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import '../styles/cart.css';
 import CartItem from "./cartItem";
-import {setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
+import {setCartProducts, setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
 import {useInitCartProductsQuery} from "../app/apiSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useRef} from "react";
@@ -10,10 +10,12 @@ function Cart() {
     const dispatch = useDispatch();
 
     const {data: response,isLoading, isSuccess} = useInitCartProductsQuery();
-    const {total, totalQuantity, totalProducts} = useSelector(state => state.cart);
+    const {total, totalQuantity, totalProducts, cartProducts} = useSelector(state => state.cart);
     const isMounted = useRef(false);
+
     useEffect(() => {
         if (!isMounted.current && response) {
+            dispatch(setCartProducts(response.products));
             dispatch(setTotal(response.total));
             dispatch(setTotalQuantity(response.totalQuantity));
             dispatch(setTotalProducts(response.totalProducts));
@@ -23,8 +25,9 @@ function Cart() {
             dispatch(setTotal(total));
             dispatch(setTotalQuantity(totalQuantity));
             dispatch(setTotalProducts(totalProducts));
+            dispatch(setCartProducts(cartProducts));
         }
-    }, [dispatch, response, total, totalQuantity, totalProducts]);
+    }, [dispatch, response, total, totalQuantity, totalProducts, cartProducts]);
 
     return (
         <div className="cart-page">
@@ -32,7 +35,7 @@ function Cart() {
             <div className="cart-page-items">
                 {
                     isSuccess && !isLoading &&
-                    response.products.map((product) => (<CartItem key={product.id} product={product}/>))
+                    cartProducts.map((product) => (<CartItem key={product.id} product={product}/>))
                 }
             </div>
             {

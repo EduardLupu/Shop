@@ -4,11 +4,11 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import {Link} from "react-router-dom";
 import {useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
+import {setCartProducts, setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
 import {useInitCartProductsQuery} from "../app/apiSlice";
 import CartItemInShop from "./cartItemInShop";
 export default function Header() {
-    const {total, totalQuantity, totalProducts} = useSelector(state => state.cart);
+    const {total, totalQuantity, totalProducts, cartProducts} = useSelector(state => state.cart);
     const isLoggedIn = useSelector(state => state.login.isLoggedIn);
     const dispatch = useDispatch();
     const {data: response, isLoading, isSuccess} = useInitCartProductsQuery(undefined,
@@ -42,21 +42,23 @@ export default function Header() {
                 cart.removeEventListener('mouseout', handleMouseOut);
             }
         }
-    }, [isLoggedIn, totalQuantity, total, response, dispatch]);
+    }, [isLoggedIn, totalQuantity, total, dispatch, cartProducts]);
 
     useEffect(() => {
         if (!isMounted.current && response) {
+            dispatch(setCartProducts(response.products));
             dispatch(setTotal(response.total));
             dispatch(setTotalQuantity(response.totalQuantity));
             dispatch(setTotalProducts(response.totalProducts));
             isMounted.current = true;
         }
         else {
+            dispatch(setCartProducts(cartProducts));
             dispatch(setTotal(total));
             dispatch(setTotalQuantity(totalQuantity));
             dispatch(setTotalProducts(totalProducts));
         }
-    }, [response, totalQuantity, total, totalProducts]);
+    }, [response, totalQuantity, total, totalProducts, cartProducts, dispatch]);
 
 
     return (
@@ -73,7 +75,7 @@ export default function Header() {
                             <div className="cart-items">
                                 {
                                     isLoggedIn && isSuccess && !isLoading &&
-                                    response.products.map((product) => (<CartItemInShop key={product.id} product={product}/>))
+                                    cartProducts.map((product) => (<CartItemInShop key={product.id} product={product}/>))
                                 }
                                 <h3 className="cart-total">TOTAL: ${total}</h3>
                             </div>

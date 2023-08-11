@@ -2,7 +2,7 @@ import {useRef, useState} from "react";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
-import {setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
+import {setCartProducts, setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {
     useAddProductToCartMutation,
@@ -22,29 +22,23 @@ function CartItem({product}) {
     const [deleteFromCart] = useDeleteProductFromCartMutation();
     const [removeFromCart] = useRemoveProductFromCartMutation();
 
-    const handlePlusClick = () => {
+    const handlePlusClick = async () => {
         plusRef.current.disabled = true;
-        const newTotalQuantity = totalQuantity + 1;
-        const newTotal = total + product.price;
-        dispatch(setTotal(newTotal));
-        dispatch(setTotalQuantity(newTotalQuantity));
         setQuantity((prevQuantity) => prevQuantity + 1);
-
-        addToCart({id: product.id, quantity: 1});
-
+        const response = await addToCart({id: product.id, quantity: 1});
+        dispatch(setTotal(response.data.data.total));
+        dispatch(setTotalQuantity(response.data.data.totalQuantity));
+        dispatch(setTotalProducts(response.data.data.totalProducts));
+        dispatch(setCartProducts(response.data.data.products));
         plusRef.current.disabled = false;
     }
 
-    const handleDeleteClick = () => {
-        const newTotalQuantity = totalQuantity - quantity;
-        const newTotalProducts = totalProducts - 1;
-        const newTotal = total - product.price * quantity;
-
-        dispatch(setTotalQuantity(newTotalQuantity));
-        dispatch(setTotalProducts(newTotalProducts));
-        dispatch(setTotal(newTotal));
-
-        deleteFromCart(product.id);
+    const handleDeleteClick = async () => {
+        const response = await deleteFromCart(product.id);
+        dispatch(setTotalQuantity(response.data.data.totalQuantity));
+        dispatch(setTotalProducts(response.data.data.totalProducts));
+        dispatch(setTotal(response.data.data.total));
+        dispatch(setCartProducts(response.data.data.products));
         setIsVisible(false);
     }
 
@@ -52,22 +46,17 @@ function CartItem({product}) {
         return null;
     }
 
-    const handleMinusClick = () => {
+    const handleMinusClick = async () => {
         minusRef.current.disabled = true;
 
         if (quantity === 1) {
             handleDeleteClick();
-        }
-        else {
-            const newTotalQuantity = totalQuantity - 1;
-            const newTotal = total - product.price;
-
-            dispatch(setTotal(newTotal));
-            dispatch(setTotalQuantity(newTotalQuantity));
-            setQuantity((prevQuantity) => prevQuantity - 1);
-
-            removeFromCart(product.id, -1);
-
+        } else {
+            const response = await removeFromCart(product.id, -1);
+            dispatch(setTotalQuantity(response.data.data.totalQuantity));
+            dispatch(setTotalProducts(response.data.data.totalProducts));
+            dispatch(setTotal(response.data.data.total));
+            dispatch(setCartProducts(response.data.data.products));
             minusRef.current.disabled = false;
         }
     }
