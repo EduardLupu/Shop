@@ -1,61 +1,47 @@
 import {Link} from "react-router-dom";
 import '../styles/cart.css';
-import {useEffect, useState} from "react";
-import {initCartProducts} from "../middleware/api";
 import CartItem from "./cartItem";
+import {setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
+import {useInitCartProductsQuery} from "../app/apiSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useRef} from "react";
 
 function Cart() {
+    const dispatch = useDispatch();
 
-    const [cartProducts, setCartProducts] = useState([]);
-    const [total, setTotal] = useState(0);
-    const [totalQuantity, setTotalQuantity] = useState(0);
-    const [totalProducts, setTotalProducts] = useState(0);
-
+    const {data: response,isLoading, isSuccess} = useInitCartProductsQuery();
+    const {total, totalQuantity, totalProducts} = useSelector(state => state.cart);
+    const isMounted = useRef(false);
     useEffect(() => {
-
-        async function fetchData() {
-            const cart = await initCartProducts();
-            setCartProducts(cart.products);
-            setTotal(cart.total)
-            setTotalQuantity(cart.totalQuantity)
-            setTotalProducts(cart.totalProducts)
+        if (!isMounted.current && response) {
+            dispatch(setTotal(response.total));
+            dispatch(setTotalQuantity(response.totalQuantity));
+            dispatch(setTotalProducts(response.totalProducts));
+            isMounted.current = true;
         }
-
-        fetchData();
-
-    }, []);
-
-    const handleDelete = (_product) => {
-        setTotalQuantity((prevQuantity) => prevQuantity - _product.quantity);
-        setTotalProducts((prevProducts) => prevProducts - 1);
-        setTotal((prevTotal) => prevTotal - _product.price * _product.quantity);
-        setCartProducts((prevProducts) => prevProducts.filter((product) => product.id !== _product.id));
-    }
-
-    const handleAdd = (_product) => {
-        setTotal((prevTotal) => prevTotal + _product.price);
-        setTotalQuantity((prevQuantity) => prevQuantity + 1);
-    }
-
-    const handleRemove = (_product) => {
-        setTotal((prevTotal) => prevTotal - _product.price);
-        setTotalQuantity((prevQuantity) => prevQuantity - 1);
-    }
-
+        else {
+            dispatch(setTotal(total));
+            dispatch(setTotalQuantity(totalQuantity));
+            dispatch(setTotalProducts(totalProducts));
+        }
+    }, [dispatch, response, total, totalQuantity, totalProducts]);
 
     return (
         <div className="cart-page">
             <Link to="/shop"><h1 className="account-logo">&spades;</h1></Link>
             <div className="cart-page-items">
-                {cartProducts.map((product) => (<CartItem key={product.id} product={product}
-                                                          onAdd={handleAdd} onRemove={handleRemove}
-                                                          onDelete={handleDelete}/>))}
+                {
+                    isSuccess && !isLoading &&
+                    response.products.map((product) => (<CartItem key={product.id} product={product}/>))
+                }
             </div>
-            <div className="totals">
-                <h3 className="cart-page-total">Total quantity: {totalQuantity}</h3>
-                <h3 className="cart-page-total">Total products: {totalProducts}</h3>
-                <h3 className="cart-page-total">Total: ${total}</h3>
-            </div>
+            {
+                <div className="totals">
+                    <h3 className="cart-page-total">Total quantity: {totalQuantity}</h3>
+                    <h3 className="cart-page-total">Total products: {totalProducts}</h3>
+                    <h3 className="cart-page-total">Total: ${total}</h3>
+                </div>
+            }
             <button className="buy-button">Buy!</button>
         </div>
     )

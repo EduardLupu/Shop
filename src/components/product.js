@@ -1,17 +1,18 @@
 import {useEffect, useRef} from "react";
 import {nextImageInProductGallery, previousImageInProductGallery} from "../utils/photoGallery";
 import {Link} from "react-router-dom";
-import {fetchAddProductToCart} from "../middleware/api";
 import {useDispatch, useSelector} from "react-redux";
 import {setTotal, setTotalQuantity} from "../app/cartSlice";
+import {useAddProductToCartMutation} from "../app/apiSlice";
 
 export function Product({product}) {
     const productContainerRef = useRef(null);
-    // eslint-disable-next-line no-unused-vars
+
     const isLoggedIn = useSelector(state => state.login.isLoggedIn);
     const {total, totalQuantity} = useSelector(state => state.cart);
     const dispatch = useDispatch();
 
+    const [addToCart] = useAddProductToCartMutation();
 
     useEffect(() => {
         const productContainer = productContainerRef.current;
@@ -27,8 +28,7 @@ export function Product({product}) {
                 dispatch(setTotal(newTotal));
                 dispatch(setTotalQuantity(newTotalQuantity));
                 button.innerText = 'Added to cart';
-                fetchAddProductToCart(product.id)
-                localStorage.removeItem('cart')
+                addToCart({id: product.id, quantity: 1});
                 setTimeout(() => {
                     popUpContainer.style.display = 'none';
                     button.innerText = 'Add to cart';
@@ -86,7 +86,7 @@ export function Product({product}) {
             arrowRight.removeEventListener("click", handleArrowClick);
             arrowLeft.removeEventListener("click", handleArrowClick);
         }
-    }, []);
+    }, [totalQuantity, total, isLoggedIn]);
 
     const starRating = {
         "--rating": product.rating,

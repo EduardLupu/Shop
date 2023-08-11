@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../styles/login.css';
 
 import { useLoginMutation } from "../app/apiSlice";
@@ -53,7 +53,7 @@ const Login = () => {
                 const email = formData.username;
                 const response = await loginMutation({email: email, password: formData.password}).unwrap();
                 if (response?.token) {
-                    localStorage.setItem('token', response.token);
+                    localStorage.setItem('user-token', response.token);
                     window.location.href = '/shop';
                 }
             } catch (error) {
