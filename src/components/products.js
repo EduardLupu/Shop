@@ -3,7 +3,7 @@ import Filter from "./filter";
 import ItemLimit from "./limit";
 import {useDispatch, useSelector} from "react-redux";
 import {setFilterValue, setOffset} from "../app/itemSlice";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {useGetProductsQuery} from "../app/apiSlice";
 export default function Products() {
     const dispatch = useDispatch();

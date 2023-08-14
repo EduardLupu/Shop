@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 const API_INTERNAL_CART_ID = '64d63f54ccbc3';
-const API_INTERNAL_CART_GET = `http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`;
+const API_INTERNAL_CART_GET = `https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`;
 const API_GET_PRODUCTS_URL = 'https://dummyjson.com/products';
 
 const token = localStorage.getItem('user-token');
@@ -20,7 +20,6 @@ export const apiSlice = createApi({
                 currentCache.products.push(...newItems.products);
             },
             forceRefetch({currentArg, previousArg}) {
-                console.log(currentArg, previousArg);
                 if (previousArg !== undefined) {
                     return currentArg.skip !== previousArg.skip;
                 }
