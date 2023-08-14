@@ -55,6 +55,7 @@ const Login = () => {
                 if (response?.token) {
                     localStorage.setItem('user-token', response.token);
                     window.location.href = '/Shop/#/shop';
+                    window.location.reload();
                 }
             } catch (error) {
                 alert(`Error ${error.status}: ${error.data.error}`);
