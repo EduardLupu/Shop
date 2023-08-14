@@ -12,13 +12,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {setIsLoggedIn} from "./app/loginSlice";
 
 function App() {
-
     const isLoggedIn = useSelector(state => state.login.isLoggedIn);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(setIsLoggedIn(checkUserToken()));
-    }, [isLoggedIn]);
+    }, [dispatch, isLoggedIn]);
 
 
     return (
