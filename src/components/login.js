@@ -5,7 +5,7 @@ import { useLoginMutation } from "../app/apiSlice";
 import {useDispatch} from "react-redux";
 import {setIsLoggedIn} from "../app/loginSlice";
 import checkUserToken from "../utils/checkIfLogged";
-import {Navigate} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const Login = () => {
     const [loginMutation] = useLoginMutation(); // Destructuring the loginMutation function and states
 
     if (checkUserToken()) {
-        return <Navigate to={'/shop'}/>;
+        return <Navigate to={'/shop'} replace={true}/>;
     }
 
     const handleSubmit = async (e) => {
@@ -64,7 +64,6 @@ const Login = () => {
                 if (response?.token) {
                     localStorage.setItem('user-token', response.token);
                     dispatch(setIsLoggedIn(checkUserToken()));
-                    return <Navigate to={'/shop'}/>;
                 }
             } catch (error) {
                 alert(`Error ${error.status}: ${error.data.error}`);
@@ -81,34 +80,37 @@ const Login = () => {
     };
 
     return (
-        <div className="login-container">
-            <h1>Login to Edi's Shop</h1>
-            <form className="login-form" onSubmit={handleSubmit}>
-                <div className="input-group">
-                    <label htmlFor="username">Username or Email</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleInputChange}
-                    />
-                    {errors.username && <p className="error">{errors.username}</p>}
-                </div>
-                <div className="input-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                    />
-                    {errors.password && <p className="error">{errors.password}</p>}
-                </div>
-                <button className="login-submit" type="submit">Login</button>
-            </form>
-        </div>
+        <>
+            <p className="account-page-logo"><Link to="/">&spades;</Link></p>
+            <div className="login-container">
+                <h1>Login to Edi's Shop</h1>
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <div className="input-group">
+                        <label htmlFor="username">Username or Email</label>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleInputChange}
+                        />
+                        {errors.username && <p className="error">{errors.username}</p>}
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                        />
+                        {errors.password && <p className="error">{errors.password}</p>}
+                    </div>
+                    <button className="login-submit" type="submit">Login</button>
+                </form>
+            </div>
+        </>
     );
 };
 

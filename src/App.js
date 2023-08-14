@@ -17,7 +17,7 @@ function App() {
 
     useEffect(() => {
         dispatch(setIsLoggedIn(checkUserToken()));
-    }, [dispatch, isLoggedIn]);
+    }, [isLoggedIn]);
 
 
     return (
@@ -26,9 +26,9 @@ function App() {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/shop" element={<Shop/>}/>
                 <Route path="/shop/:id" element={<ProductPage/>}/>
-                <Route path="/cart" element={<Cart/>}/>
+                <Route path="/cart" element={isLoggedIn ? <Cart/> : <Login/>}/>
                 <Route path="/login" element={<Login/>}/>
-                <Route path="/account" element={<Account/>}/>
+                <Route path="/account" element={isLoggedIn ? <Account/> : <Login/>}/>
                 <Route path="*" element={<h1 style={{fontSize: "15rem"}}>Error 404: Not Found</h1>}/>
                 <Route path="/404" element={<h1 style={{fontSize: "15rem"}}>Error 404: Not Found</h1>}/>
             </Routes>

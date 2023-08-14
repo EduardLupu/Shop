@@ -7,12 +7,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {setCartProducts, setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
 import {useInitCartProductsQuery} from "../app/apiSlice";
 import CartItemInShop from "./cartItemInShop";
+
 export default function Header() {
     const {total, totalQuantity, totalProducts, cartProducts} = useSelector(state => state.cart);
     const isLoggedIn = useSelector(state => state.login.isLoggedIn);
     const dispatch = useDispatch();
     const {data: response, isLoading, isSuccess} = useInitCartProductsQuery(undefined,
-        {skip: !isLoggedIn}
+        {skip: !isLoggedIn },
     );
     const isMounted = useRef(false);
 

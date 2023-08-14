@@ -7,12 +7,11 @@ function Account() {
     const dispatch = useDispatch();
 
     if (!checkUserToken()) {
-        return <Navigate to={'/login'}/>
+        return <Navigate to={'/login'} replace={true}/>
     }
     const handleLogout = () => {
         localStorage.removeItem('user-token');
         dispatch(setIsLoggedIn(checkUserToken()));
-        return <Navigate to={'/'}/>
     };
 
     return (

@@ -67,10 +67,14 @@
 }
 
 .account-logo {
-    text-decoration: none;
     font-size: 3rem;
     margin-left: 2.5rem;
     color: black;
+}
+
+a {
+    text-decoration: none;
+    width: 3rem;
 }
 
 .account-logo:hover {
