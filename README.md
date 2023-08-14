@@ -4,6 +4,10 @@ I implemented the functionalities of an online shop application using React JS.
 I used [dummyjson.com](https://dummyjson.com/docs/products) to generate the data for the products.
 The user/login/cart functionalities use an internal API which can only be accessed at my work place office or through a VPN connection.
 
+You can use these credentials to login and test the application (must be connected to the VPN or at my work place office):
+- username: test4@mail.com
+- password: hl7^cfl6$n0Jll1K2WAp&#o1
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Photos
