@@ -13,6 +13,19 @@ export const apiSlice = createApi({
             query: (params) => {
                 return `${API_GET_PRODUCTS_URL}?limit=${params.limit}&skip=${params.skip}`
             },
+            serializeQueryArgs: ({endpointName}) => {
+                return endpointName;
+            },
+            merge(currentCache, newItems) {
+                currentCache.products.push(...newItems.products);
+            },
+            forceRefetch({currentArg, previousArg}) {
+                console.log(currentArg, previousArg);
+                if (previousArg !== undefined) {
+                    return currentArg.skip !== previousArg.skip;
+                }
+                return false;
+            }
         }),
         getProduct: builder.query({
             query: (id) => `${API_GET_PRODUCTS_URL}/${id}`,

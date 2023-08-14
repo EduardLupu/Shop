@@ -5,6 +5,7 @@ const itemSlice = createSlice({
     initialState: {
         limit: 6,
         filterValue: "",
+        offset: 0,
     },
     reducers: {
         setLimit: (state, action) => {
@@ -12,10 +13,13 @@ const itemSlice = createSlice({
         },
         setFilterValue: (state, action) => {
             state.filterValue = action.payload;
+        },
+        setOffset: (state, action) => {
+            state.offset = action.payload;
         }
     },
 });
 
-export const {setLimit, setFilterValue} = itemSlice.actions;
+export const {setLimit, setFilterValue, setOffset} = itemSlice.actions;
 
 export default itemSlice.reducer;

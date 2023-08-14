@@ -1,18 +1,42 @@
 import {Product} from "./product";
-import {useProducts} from "../utils/useProducts";
-
 import Filter from "./filter";
 import ItemLimit from "./limit";
 import {useDispatch, useSelector} from "react-redux";
-import {setFilterValue} from "../app/itemSlice";
+import {setFilterValue, setOffset} from "../app/itemSlice";
+import {useEffect, useRef, useState} from "react";
+import {useGetProductsQuery} from "../app/apiSlice";
 export default function Products() {
     const dispatch = useDispatch();
-    const {limit, filterValue} = useSelector((state) => state.item);
+    const {limit, filterValue, offset} = useSelector((state) => state.item);
+    const {data: response, isFetching,} = useGetProductsQuery({limit: limit, skip: offset});
+    const isMounted = useRef(false);
 
-    let products = useProducts(limit);
+    const products = response?.products ?? [];
+
+    useEffect(() => {
+        const onScroll = () => {
+            const scrolledToBottom =
+                window.innerHeight + window.scrollY >= document.body.offsetHeight;
+            if (scrolledToBottom && !isFetching && !isMounted.current) {
+                console.log("Fetching more data...");
+                const newOffset = offset + limit;
+                dispatch(setOffset(newOffset));
+                isMounted.current = true;
+            }
+        };
+
+        document.addEventListener("scroll", onScroll);
+
+        return function () {
+            document.removeEventListener("scroll", onScroll);
+            isMounted.current = false;
+        };
+    }, [offset, isFetching]);
+
     const handleFilterChange = (value) => {
         dispatch(setFilterValue(value));
     };
+
 
     const filteredProducts = products.filter((product) => {
         const {category, title} = product;
