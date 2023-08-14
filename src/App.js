@@ -26,9 +26,9 @@ function App() {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/shop" element={<Shop/>}/>
                 <Route path="/shop/:id" element={<ProductPage/>}/>
-                <Route path="/cart" element={isLoggedIn === true ? <Cart/> : <Login/>}/>
+                <Route path="/cart" element={<Cart/>}/>
                 <Route path="/login" element={<Login/>}/>
-                <Route path="/account" element={isLoggedIn === true ? <Account/> : <Login/>}/>
+                <Route path="/account" element={<Account/>}/>
                 <Route path="*" element={<h1 style={{fontSize: "15rem"}}>Error 404: Not Found</h1>}/>
                 <Route path="/404" element={<h1 style={{fontSize: "15rem"}}>Error 404: Not Found</h1>}/>
             </Routes>

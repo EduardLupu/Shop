@@ -1,12 +1,18 @@
-
 import '../styles/account.css';
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {setIsLoggedIn} from "../app/loginSlice";
+import checkIfLogged from "../utils/checkIfLogged";
 function Account() {
+    const dispatch = useDispatch();
 
+    if (!checkIfLogged()) {
+        return <Navigate to={'/login'}/>
+    }
     const handleLogout = () => {
         localStorage.removeItem('user-token');
-        window.location.href = '/Shop';
-        window.location.reload();
+        dispatch(setIsLoggedIn(checkIfLogged()));
+        return <Navigate to={'/'}/>
     };
 
     return (

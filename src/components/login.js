@@ -2,8 +2,14 @@ import React, {useState} from 'react';
 import '../styles/login.css';
 
 import { useLoginMutation } from "../app/apiSlice";
+import {useDispatch} from "react-redux";
+import {setIsLoggedIn} from "../app/loginSlice";
+import checkUserToken from "../utils/checkIfLogged";
+import {Navigate} from "react-router-dom";
+import checkIfLogged from "../utils/checkIfLogged";
 
 const Login = () => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -13,7 +19,6 @@ const Login = () => {
         username: '',
         password: '',
     });
-
 
     const validateForm = () => {
         let valid = true;
@@ -46,6 +51,11 @@ const Login = () => {
     };
 
     const [loginMutation] = useLoginMutation(); // Destructuring the loginMutation function and states
+
+    if (checkIfLogged()) {
+        return <Navigate to={'/shop'}/>;
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
@@ -54,8 +64,8 @@ const Login = () => {
                 const response = await loginMutation({email: email, password: formData.password}).unwrap();
                 if (response?.token) {
                     localStorage.setItem('user-token', response.token);
-                    window.location.href = '/Shop/#/shop';
-                    window.location.reload();
+                    dispatch(setIsLoggedIn(checkUserToken()));
+                    return <Navigate to={'/shop'}/>;
                 }
             } catch (error) {
                 alert(`Error ${error.status}: ${error.data.error}`);
