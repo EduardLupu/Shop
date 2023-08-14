@@ -334,6 +334,7 @@ ul.top-nav li.icon {
 
 .shopping-cart {
     position: relative;
+    z-index: 10000;
 }
 
 .shopping-cart-count {
@@ -349,6 +350,7 @@ ul.top-nav li.icon {
     background-color: crimson;
     color: white;
     border-radius: 50%;
+    z-index: 10000;
 }
 
 .cart-items-wrapper {
@@ -528,5 +530,9 @@ ul.top-nav li.icon {
 }
 
 @media screen and (max-width: 700px) {
-
+    .cart-items {
+        left: -200%;
+        width: 35rem;
+        padding-top: 1rem;
+    }
 }
