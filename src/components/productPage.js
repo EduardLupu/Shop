@@ -73,10 +73,10 @@ function ProductPage() {
                         name={"title"}
                         required={true}
                         className={"rating-title"}
-                        maxLength={10}
+                        maxLength={20}
                     />
                     <label htmlFor={"description"}>Description: </label>
-                    <textarea maxLength={20}
+                    <textarea maxLength={30}
                         id={"description"}
                         name={"description"}
                         required={true}
