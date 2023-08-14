@@ -18,7 +18,6 @@ export default function Products() {
             const scrolledToBottom =
                 window.innerHeight + window.scrollY >= document.body.offsetHeight;
             if (scrolledToBottom && !isFetching && !isMounted.current) {
-                console.log("Fetching more data...");
                 const newOffset = offset + limit;
                 dispatch(setOffset(newOffset));
                 isMounted.current = true;

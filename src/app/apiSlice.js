@@ -80,7 +80,7 @@ export const apiSlice = createApi({
         }),
         login: builder.mutation({
             query: (credentials) => ({
-                url: 'http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/login',
+                url: 'https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/login',
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credentials),
