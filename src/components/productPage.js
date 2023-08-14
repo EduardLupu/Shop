@@ -61,7 +61,7 @@ function ProductPage() {
         reviewContainer.classList.remove("review-container-active");
     }
     return (
-        <>
+        <div className="product-page-container">
             <Header/>
             <div className="review-container">
                 <form className="review-form"
@@ -100,7 +100,7 @@ function ProductPage() {
             </div>
             <div className="other-items">
                 {id > 1 ? <Link to={`/shop/${id - 1}`}>
-                    <button>Previous</button></Link>: <button style={{pointerEvents: "none", opacity: 0.5}}>Previous</button>}
+                    <button>Prev</button></Link>: <button style={{pointerEvents: "none", opacity: 0.5}}>Prev</button>}
 
                 {isLoggedIn && <button id="review-button"> Review </button>}
 
@@ -128,7 +128,7 @@ function ProductPage() {
                 })
                 }
             </div>
-        </>
+        </div>
     );
 }
 

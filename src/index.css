@@ -18,44 +18,33 @@ body {
 ul.top-nav {
     font-family: 'Roboto', sans-serif;
     display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-start;
     list-style-type: none;
+    justify-content: space-between;
+    background-color: transparent;
     margin: 0;
     padding: 0;
-    background-color: transparent;
-}
-
-@media screen and (max-width: 800px) {
-    ul.top-nav li:not(:nth-child(3)):not(:nth-child(4)):not(:nth-child(5)) {
-        display: none;
-    }
 }
 
 .account-logo {
     font-family: Verdana, serif;
     font-size: 1.5rem;
-    margin-right: auto;
 }
 
-ul.top-nav > li > a:hover {
-    color: darkmagenta;
-    opacity: 0.7;
+ul.top-nav > li > a:hover, ul.top-nav > .links > li > a:hover {
+    color: crimson;
 }
+
 
 ul.top-nav li {
-    float: right;
     text-transform: uppercase;
+    margin: 0;
 }
 
 ul.top-nav li a {
     display: flex;
     color: black;
     text-decoration: none;
-    gap: 1.5rem;
     transition: 0.4s;
-    font-size: 2rem;
-    margin: 1.5rem;
 }
 
 ul.top-nav li a:hover {
@@ -100,27 +89,23 @@ ul.top-nav li.icon {
 }
 
 .promo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background-image: url("./assets/images/bg.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     z-index: 0;
+    height: 20vh;
 }
 
 .promo h1 {
-    font-size: 7rem;
-    font-family: 'Droid Serif', 'Garamond', serif;
-
-}
-
-.promo h2 {
-    font-size: 3.5rem;
-    font-family: 'Droid Serif', 'Garamond', serif;
-    margin-top: 0;
+    font-size: 4rem;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    opacity: 0.7;
 }
 
 .products {
@@ -355,10 +340,10 @@ ul.top-nav li.icon {
     position: absolute;
     display: none;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     align-items: center;
+    left: 70%;
     top: 10%;
-    right: 15%;
     height: 2.5rem;
     width: 2.5rem;
     background-color: crimson;
@@ -374,18 +359,22 @@ ul.top-nav li.icon {
     display: none;
     position: absolute;
     flex-direction: column;
-    right: 50%;
+    right: 1vw;
     top: 100%;
-    margin-top: 1px;
     width: 40rem;
     padding: 1rem;
     max-height: 50rem;
     flex-grow: 0;
     background-color: white;
-    border: 1px solid black;
     border-top: none;
     overflow-y: auto;
     z-index: 9999;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.cart-items::-webkit-scrollbar {
+    width: 0.5rem;
 }
 
 .cart-item {
@@ -403,18 +392,26 @@ ul.top-nav li.icon {
     object-fit: cover;
 }
 
+.cart-item-counter {
+    font-size: 1.3rem;
+}
+
 .cart-item-title {
-    max-width: 2rem;
+    font-size: 1.3rem;
 }
 
 .cart-total {
-    font-size: 1.6rem;
-    font-family: 'Roboto', sans-serif;
+    font-size: 1.3rem;
     margin-left: auto;
+}
+
+.cart-item-price {
+    font-size: 1.3rem;
 }
 
 .cart-item-button-quantity {
     border: 0;
+    font-size: 1.3rem;
     background-color: transparent;
     cursor: pointer;
 }
@@ -485,32 +482,27 @@ ul.top-nav li.icon {
 }
 
 .home {
-    background-image: url("./assets/images/bg.jpg");
+    background: url("./assets/images/bg.jpg") center center fixed;
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     height: 100vh;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    overflow-y: hidden;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+
 }
 
 .home h1 {
-    font-size: 16rem;
+    font-size: 7rem;
     font-family: 'Roboto', sans-serif;
     text-align: center;
     color: white;
-    margin-bottom: 30rem;
-    padding: 0;
     opacity: 0.7;
 }
 
 .home button {
-    font-size: 6rem;
+    font-size: 1.6rem;
     font-family: 'Roboto', sans-serif;
     background-color: transparent;
     border: 1px solid white;
@@ -518,9 +510,23 @@ ul.top-nav li.icon {
     opacity: 0.7;
     padding: 1rem;
     cursor: pointer;
+    margin-bottom: 2.3rem;
 }
 
 .home button:hover {
     background-color: white;
     color: black;
+}
+
+.links {
+    display: flex;
+    font-size: 1.7rem;
+    margin: 1rem;
+    justify-content: space-between;
+    z-index: 3000;
+    gap: 3rem;
+}
+
+@media screen and (max-width: 700px) {
+
 }

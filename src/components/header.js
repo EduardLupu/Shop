@@ -31,6 +31,7 @@ export default function Header() {
             const handleMouseOver = () => {
                 cartProductsContainer.style.display = 'flex';
             }
+
             const handleMouseOut = () => {
                 cartProductsContainer.style.display = 'none';
             }
@@ -69,24 +70,25 @@ export default function Header() {
             </div>
             <nav className="effect-1">
                 <ul className="top-nav">
-                    <li><Link to="/account">Account</Link></li>
-                    <li><Link to="/shop">Shop</Link></li>
-                    <li className="shopping-cart"><Link to="/cart"><FontAwesomeIcon icon={faCartShopping} /><span className="shopping-cart-count"></span></Link>
-                        <div className="cart-items-wrapper">
-                            <div className="cart-items">
-                                {
-                                    isLoggedIn && isSuccess && !isLoading &&
-                                    cartProducts.map((product) => (<CartItemInShop key={product.id} product={product}/>))
-                                }
-                                <h3 className="cart-total">TOTAL: ${total}</h3>
-                            </div>
-                        </div></li>
                     <li className="account-logo"><Link to="/">&spades;</Link></li>
+                    <div className="links">
+                        <li className="shopping-cart"><Link to="/cart"><FontAwesomeIcon icon={faCartShopping} /><span className="shopping-cart-count"></span></Link>
+                            <div className="cart-items-wrapper">
+                                <div className="cart-items">
+                                    {
+                                        isLoggedIn && isSuccess && !isLoading &&
+                                        cartProducts.map((product) => (<CartItemInShop key={product.id} product={product}/>))
+                                    }
+                                    <h3 className="cart-total">TOTAL: ${total}</h3>
+                                </div>
+                            </div></li>
+                        <li><Link to="/account">Account</Link></li>
+                        <li><Link to="/shop">Shop</Link></li>
+                    </div>
                 </ul>
             </nav>
             <div className="promo">
                 <h1>Edi's shop</h1>
-                <h2>Best prices on the market!</h2>
             </div>
         </header>
     );
