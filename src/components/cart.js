@@ -1,10 +1,12 @@
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import '../styles/cart.css';
 import CartItem from "./cartItem";
 import {setCartProducts, setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
 import {useInitCartProductsQuery} from "../app/apiSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useRef} from "react";
+import checkUserToken from "../utils/checkIfLogged";
+
 
 function Cart() {
     const dispatch = useDispatch();
@@ -28,6 +30,10 @@ function Cart() {
             dispatch(setCartProducts(cartProducts));
         }
     }, [dispatch, response, total, totalQuantity, totalProducts, cartProducts]);
+
+    if (!checkUserToken()) {
+        return <Navigate to={'/login'}/>;
+    }
 
     return (
         <div className="cart-page">

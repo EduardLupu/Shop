@@ -6,7 +6,6 @@ import {useDispatch} from "react-redux";
 import {setIsLoggedIn} from "../app/loginSlice";
 import checkUserToken from "../utils/checkIfLogged";
 import {Navigate} from "react-router-dom";
-import checkIfLogged from "../utils/checkIfLogged";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -52,7 +51,7 @@ const Login = () => {
 
     const [loginMutation] = useLoginMutation(); // Destructuring the loginMutation function and states
 
-    if (checkIfLogged()) {
+    if (checkUserToken()) {
         return <Navigate to={'/shop'}/>;
     }
 

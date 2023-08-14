@@ -2,16 +2,16 @@ import '../styles/account.css';
 import {Link, Navigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setIsLoggedIn} from "../app/loginSlice";
-import checkIfLogged from "../utils/checkIfLogged";
+import checkUserToken from "../utils/checkIfLogged";
 function Account() {
     const dispatch = useDispatch();
 
-    if (!checkIfLogged()) {
+    if (!checkUserToken()) {
         return <Navigate to={'/login'}/>
     }
     const handleLogout = () => {
         localStorage.removeItem('user-token');
-        dispatch(setIsLoggedIn(checkIfLogged()));
+        dispatch(setIsLoggedIn(checkUserToken()));
         return <Navigate to={'/'}/>
     };
 
