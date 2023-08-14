@@ -5,7 +5,7 @@ function Account() {
 
     const handleLogout = () => {
         localStorage.removeItem('user-token');
-        window.location.href = '/';
+        window.location.href = '/Shop';
     };
 
     return (

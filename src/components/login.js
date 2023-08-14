@@ -45,7 +45,7 @@ const Login = () => {
         return valid;
     };
 
-    const [loginMutation, { isLoading, isError }] = useLoginMutation(); // Destructuring the loginMutation function and states
+    const [loginMutation] = useLoginMutation(); // Destructuring the loginMutation function and states
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
@@ -54,7 +54,7 @@ const Login = () => {
                 const response = await loginMutation({email: email, password: formData.password}).unwrap();
                 if (response?.token) {
                     localStorage.setItem('user-token', response.token);
-                    window.location.href = '/shop';
+                    window.location.href = '/Shop/#/shop';
                 }
             } catch (error) {
                 alert(`Error ${error.status}: ${error.data.error}`);
