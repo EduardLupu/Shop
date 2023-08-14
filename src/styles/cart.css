@@ -9,6 +9,10 @@
     margin: 0 auto;
 }
 
+.cart-page > a {
+    text-decoration: none;
+}
+
 .cart-page-items {
     display: flex;
     flex-direction: column-reverse;
@@ -72,9 +76,6 @@
     color: black;
 }
 
-a {
-    text-decoration: none;
-}
 
 .account-logo:hover {
     color: crimson;
