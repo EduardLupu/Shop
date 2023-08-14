@@ -18,7 +18,7 @@ function ProductPage() {
     const {data: product, isLoading} = useGetProductQuery(id);
 
     useEffect(() => {
-        if (product) {
+        if (product && isLoggedIn) {
             const reviewButton = document.getElementById("review-button");
             const reviewContainer = document.querySelector(".review-container");
             const reviewForm = document.querySelector(".review-form");
@@ -36,7 +36,7 @@ function ProductPage() {
                 reviewContainer.classList.remove("review-container-active");
             }
         }
-    }, [product]);
+    }, [product, isLoggedIn]);
 
     if (id > 100 || id < 1) {
         window.location.href = '/404'
