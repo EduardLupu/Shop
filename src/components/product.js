@@ -8,6 +8,8 @@ import {useAddProductToCartMutation} from "../app/apiSlice";
 export function Product({product}) {
     const productContainerRef = useRef(null);
 
+    const ratings = useSelector(state => state.ratings.ratings);
+
     const isLoggedIn = useSelector(state => state.login.isLoggedIn);
     const {total, totalQuantity} = useSelector(state => state.cart);
     const dispatch = useDispatch();
@@ -17,7 +19,6 @@ export function Product({product}) {
     useEffect(() => {
         const productContainer = productContainerRef.current;
         const button = productContainer.querySelector(".product-button");
-
         const handleButtonClick = async () => {
             if (isLoggedIn) {
                 const popUpContainer = document.querySelector(".pop-up");
@@ -89,8 +90,20 @@ export function Product({product}) {
         }
     }, [totalQuantity, total, isLoggedIn]);
 
+    const calculateRating = (id) => {
+        let sum = parseFloat(product.rating);
+        let count = 1;
+        ratings.forEach((rating) => {
+            if (rating.id === id) {
+                sum += parseInt(rating.rating);
+                count++;
+            }
+        });
+        return (sum / count).toFixed(3);
+    }
+
     const starRating = {
-        "--rating": product.rating,
+        "--rating": calculateRating(product.id),
     };
 
     return (
@@ -111,7 +124,7 @@ export function Product({product}) {
             <h3 className="product-rating">
                 <span className="star-rating" style={starRating}>
                 </span>
-                {product.rating}
+                {calculateRating(product.id)}
             </h3>
             <h3 className="product-stock">
                 Available: {product.stock}
