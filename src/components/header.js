@@ -1,6 +1,6 @@
 import '../index.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import {faCartShopping, faStore, faUser} from '@fortawesome/free-solid-svg-icons';
 import {Link} from "react-router-dom";
 import {useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -82,8 +82,8 @@ export default function Header() {
                                     <h3 className="cart-total">TOTAL: ${total}</h3>
                                 </div>
                             </div></li>
-                        <li><Link to="/account">Account</Link></li>
-                        <li><Link to="/shop">Shop</Link></li>
+                        <li><Link to="/shop"><FontAwesomeIcon icon={faStore} /></Link></li>
+                        <li><Link to="/account"><FontAwesomeIcon icon={faUser} /></Link></li>
                     </div>
                 </ul>
             </nav>

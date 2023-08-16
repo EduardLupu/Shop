@@ -531,7 +531,7 @@ ul.top-nav li.icon {
 
 @media screen and (max-width: 700px) {
     .cart-items {
-        left: -200%;
+        left: -330%;
         width: 35rem;
         padding-top: 1rem;
     }

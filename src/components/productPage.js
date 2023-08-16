@@ -7,6 +7,8 @@ import {useGetProductQuery} from "../app/apiSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {setRatings} from "../app/ratingsSlice";
+import {faCircleChevronLeft, faCircleChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 function ProductPage() {
 
     let {id} = useParams();
@@ -100,12 +102,13 @@ function ProductPage() {
             </div>
             <div className="other-items">
                 {id > 1 ? <Link to={`/shop/${id - 1}`}>
-                    <button>Prev</button></Link>: <button style={{pointerEvents: "none", opacity: 0.5}}>Prev</button>}
+                    <button><FontAwesomeIcon className="icon" icon={faCircleChevronLeft} /></button></Link>: <button style={{pointerEvents: "none", opacity: 0.5}}><FontAwesomeIcon className="icon" icon={faCircleChevronLeft} /></button>}
 
-                {isLoggedIn && <button id="review-button"> Review </button>}
+
+                {isLoggedIn && <button id="review-button"> <FontAwesomeIcon className="icon" icon={faStar} /> </button>}
 
                 {id < 100 ? <Link to={`/shop/${id + 1}`}>
-                    <button>Next</button></Link>: <button style={{pointerEvents: "none", opacity: 0.5}}>Next</button>}
+                    <button><FontAwesomeIcon className="icon" icon={faCircleChevronRight} /></button></Link>: <button style={{pointerEvents: "none", opacity: 0.5}}><FontAwesomeIcon className="icon" icon={faCircleChevronRight} /></button>}
             </div>
             <div className="product-page">
                 {isLoading ? <Loader/> : <Product product={product}/>}
