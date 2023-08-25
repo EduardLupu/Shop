@@ -71,6 +71,7 @@ export const apiSlice = createApi({
                     },
                 }
             },
+            providesTags: ['Cart'],
         }),
         login: builder.mutation({
             query: (credentials) => ({
@@ -79,6 +80,7 @@ export const apiSlice = createApi({
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(credentials),
             }),
+            invalidatesTags: ['User', 'Cart'],
         }),
         register: builder.mutation({
             query: (credentials) => ({
@@ -87,6 +89,7 @@ export const apiSlice = createApi({
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(credentials),
             }),
+            invalidatesTags: ['User', 'Cart'],
         }),
         logout: builder.mutation({
             query: () => ({
@@ -96,6 +99,7 @@ export const apiSlice = createApi({
                     'Content-Type': 'application/json',
                 },
             }),
+            invalidatesTags: ['User', 'Cart', 'Orders'],
         }),
         profile: builder.query({
             query: () => ({
@@ -105,6 +109,7 @@ export const apiSlice = createApi({
                     'Content-Type': 'application/json',
                 },
             }),
+            providesTags: ['User'],
         }),
     }),
 });

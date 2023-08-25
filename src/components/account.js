@@ -14,7 +14,6 @@ function Account() {
     if (!checkUserToken()) {
         return <Navigate to={'/login'} replace={true}/>
     }
-    console.log(response)
     const handleLogout = async () => {
         await logoutMutation();
         sessionStorage.removeItem('token');
