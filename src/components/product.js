@@ -24,11 +24,11 @@ export function Product({product}) {
                 const popUpContainer = document.querySelector(".pop-up");
                 popUpContainer.style.display = 'flex';
 
-                const response = await addToCart({id: product.id, quantity: 1});
-                dispatch(setTotal(response.data.data.total));
-                dispatch(setTotalQuantity(response.data.data.totalQuantity));
-                dispatch(setTotalProducts(response.data.data.totalProducts));
-                dispatch(setCartProducts(response.data.data.products));
+                const response = await addToCart(product.id);
+                dispatch(setTotal(response.data.total));
+                dispatch(setTotalQuantity(response.data.totalQuantity));
+                dispatch(setTotalProducts(response.data.totalProducts));
+                dispatch(setCartProducts(response.data.products));
 
                 button.style.pointerEvents = 'none';
                 button.innerText = 'Added to cart';

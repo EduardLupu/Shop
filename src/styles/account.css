@@ -35,6 +35,11 @@
     font-size: 1.5rem;
 }
 
+.logout-button:hover {
+    background-color: #0069d9;
+    scale: 1.05;
+}
+
 .account-page-logo {
     position: fixed;
     z-index: 1;
@@ -52,3 +57,21 @@
     color: crimson;
 }
 
+.account-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.account-info > * {
+    margin: 0.9rem;
+}
+
+.account-info > *:first-child {
+    margin-top: 0;
+    width: 25rem;
+    height: 25rem;
+    border-radius: 50%;
+}

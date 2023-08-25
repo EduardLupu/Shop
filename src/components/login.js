@@ -6,7 +6,6 @@ import {useDispatch} from "react-redux";
 import {setIsLoggedIn} from "../app/loginSlice";
 import checkUserToken from "../utils/checkIfLogged";
 import {Link, Navigate} from "react-router-dom";
-
 const Login = () => {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
@@ -18,7 +17,6 @@ const Login = () => {
         username: '',
         password: '',
     });
-
     const validateForm = () => {
         let valid = true;
         const newErrors = { ...errors };
@@ -58,17 +56,22 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            try {
+            try
+            {
                 const email = formData.username;
                 const response = await loginMutation({email: email, password: formData.password}).unwrap();
-                if (response?.token) {
-                    localStorage.setItem('user-token', response.token);
-                    dispatch(setIsLoggedIn(checkUserToken()));
-                }
-            } catch (error) {
-                alert(`Error ${error.status}: ${error.data.error}`);
+                sessionStorage.removeItem('token');
+                sessionStorage.setItem('token', response.token);
+                dispatch(setIsLoggedIn(checkUserToken()));
             }
+            catch (err)
+            {
+                console.log(err);
+                alert(`Error: ${err.status}: ${err.data.message}`);
+            }
+
         }
+
     };
 
     const handleInputChange = (e) => {
@@ -86,7 +89,7 @@ const Login = () => {
                 <h1>Login to Edi's Shop</h1>
                 <form className="login-form" onSubmit={handleSubmit}>
                     <div className="input-group">
-                        <label htmlFor="username">Username or Email</label>
+                        <label htmlFor="username">Email</label>
                         <input
                             type="text"
                             id="username"
@@ -108,6 +111,8 @@ const Login = () => {
                         {errors.password && <p className="error">{errors.password}</p>}
                     </div>
                     <button className="login-submit" type="submit">Login</button>
+                    <h2>Don't have an account? You can register here:</h2>
+                    <Link to="/register"><button className="login-submit">Register</button></Link>
                 </form>
             </div>
         </>

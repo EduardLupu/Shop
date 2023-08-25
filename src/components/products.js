@@ -11,7 +11,7 @@ export default function Products() {
     const {data: response, isFetching,} = useGetProductsQuery({limit: limit, skip: offset});
     const isMounted = useRef(false);
 
-    const products = response?.products ?? [];
+    const products = response ?? [];
 
     useEffect(() => {
         const onScroll = () => {

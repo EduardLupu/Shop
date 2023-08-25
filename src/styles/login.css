@@ -35,10 +35,11 @@ label {
 
 input {
     width: 100%;
-    padding: 10px;
+    padding: 10px 0 10px 0;
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 1.4rem;
+    text-align: center;
 }
 
 .error {
@@ -48,7 +49,8 @@ input {
 }
 
 .login-submit {
-    padding: 10px 20px;
+    min-width: 10rem;
+    padding: 0.7rem 0 0.7rem 0;
     background-color: #007bff;
     color: white;
     border: none;
@@ -59,4 +61,5 @@ input {
 
 .login-submit:hover {
     background-color: #0056b3;
+    scale: 1.05;
 }

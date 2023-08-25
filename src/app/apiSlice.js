@@ -1,30 +1,28 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-
-const API_INTERNAL_CART_ID = '64d63f54ccbc3';
-const API_INTERNAL_CART_GET = `https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`;
-const API_GET_PRODUCTS_URL = 'https://dummyjson.com/products';
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
+        baseUrl: "http://localhost:8080/api",
         prepareHeaders: (headers) => {
-            const token = localStorage.getItem('user-token');
+            const token = sessionStorage.getItem('token');
             if (token) {
-                headers.set('Internship-Auth', token);
+                headers.set('Authorization', `Bearer ${token}`);
             }
             return headers;
-        }
+        },
+        credentials: 'include',
     }),
 
     endpoints: (builder) => ({
         getProducts: builder.query({
             query: (params) => {
-                return `${API_GET_PRODUCTS_URL}?limit=${params.limit}&skip=${params.skip}`
+                return `/products?limit=${params.limit}&skip=${params.skip}`
             },
             serializeQueryArgs: ({endpointName}) => {
                 return endpointName;
             },
             merge(currentCache, newItems) {
-                currentCache.products.push(...newItems.products);
+                currentCache.push(...newItems);
             },
             forceRefetch({currentArg, previousArg}) {
                 if (previousArg !== undefined) {
@@ -34,37 +32,29 @@ export const apiSlice = createApi({
             }
         }),
         getProduct: builder.query({
-            query: (id) => `${API_GET_PRODUCTS_URL}/${id}`,
+            query: (id) => `/products/${id}`,
         }),
         addProductToCart: builder.mutation({
-            query: ({ id, quantity }) => ({
-                url: `https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`,
+            query: (id) => ({
+                url: `/cart/${id}`,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    userId: 1,
-                    products: [{ id: id, quantity: quantity }],
-                }),
             }),
         }),
         removeProductFromCart: builder.mutation({
-            query: ({ id, quantity }) => ({
-                url: `https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}`,
-                method: 'POST',
+            query: (id) => ({
+                url: `/cart/${id}`,
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userId: 1,
-                    products: [{ id: id, quantity: quantity }],
-                }),
+                }
             }),
         }),
         deleteProductFromCart: builder.mutation({
             query: (id) => ({
-                url: `https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${API_INTERNAL_CART_ID}?products[]=${id}`,
+                url: `/cart/delete/${id}`,
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -72,21 +62,48 @@ export const apiSlice = createApi({
             }),
         }),
         initCartProducts: builder.query({
-            query:  () => {
+            query: () => {
                 return {
-                url: API_INTERNAL_CART_GET,
+                    url: `/cart`,
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            },
+        }),
+        login: builder.mutation({
+            query: (credentials) => ({
+                url: '/login',
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(credentials),
+            }),
+        }),
+        register: builder.mutation({
+            query: (credentials) => ({
+                url: '/register',
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(credentials),
+            }),
+        }),
+        logout: builder.mutation({
+            query: () => ({
+                url: '/logout',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }),
+        }),
+        profile: builder.query({
+            query: () => ({
+                url: '/account',
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            }},
-        }),
-        login: builder.mutation({
-            query: (credentials) => ({
-                url: 'https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/login',
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(credentials),
             }),
         }),
     }),
@@ -100,4 +117,7 @@ export const {
     useDeleteProductFromCartMutation,
     useInitCartProductsQuery,
     useLoginMutation,
+    useProfileQuery,
+    useRegisterMutation,
+    useLogoutMutation,
 } = apiSlice;
