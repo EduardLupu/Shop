@@ -42,6 +42,7 @@ export const apiSlice = createApi({
                     'Content-Type': 'application/json',
                 },
             }),
+            invalidatesTags: ['Order']
         }),
         removeProductFromCart: builder.mutation({
             query: (id) => ({
@@ -51,6 +52,7 @@ export const apiSlice = createApi({
                     'Content-Type': 'application/json',
                 }
             }),
+            invalidatesTags: ['Order']
         }),
         deleteProductFromCart: builder.mutation({
             query: (id) => ({
@@ -60,6 +62,7 @@ export const apiSlice = createApi({
                     'Content-Type': 'application/json',
                 },
             }),
+            invalidatesTags: ['Order']
         }),
         initCartProducts: builder.query({
             query: () => {
@@ -71,7 +74,7 @@ export const apiSlice = createApi({
                     },
                 }
             },
-            providesTags: ['Cart'],
+            providesTags: ['Cart', 'Order'],
         }),
         login: builder.mutation({
             query: (credentials) => ({
@@ -111,6 +114,27 @@ export const apiSlice = createApi({
             }),
             providesTags: ['User'],
         }),
+        reviews: builder.query({
+            query: (productId) => ({
+                url: `/reviews/${productId}`,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }),
+            providesTags: ['Reviews'],
+        }),
+        createReview: builder.mutation({
+            query: (params) => ({
+                url: `/reviews/${params.productId}`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(params.review),
+            }),
+            invalidatesTags: ['Reviews'],
+            }),
     }),
 });
 
@@ -125,4 +149,6 @@ export const {
     useProfileQuery,
     useRegisterMutation,
     useLogoutMutation,
+    useReviewsQuery,
+    useCreateReviewMutation,
 } = apiSlice;

@@ -3,21 +3,20 @@ import {Product} from "./product";
 import '../styles/productPage.css';
 import {Loader} from "./loader";
 import Header from "./header";
-import {useGetProductQuery} from "../app/apiSlice";
-import {useDispatch, useSelector} from "react-redux";
+import {useCreateReviewMutation, useGetProductQuery, useReviewsQuery} from "../app/apiSlice";
+import {useSelector} from "react-redux";
 import {useEffect} from "react";
-import {setRatings} from "../app/ratingsSlice";
 import {faCircleChevronLeft, faCircleChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 function ProductPage() {
 
     let {id} = useParams();
-    const dispatch = useDispatch();
     id = parseInt(id);
-    const ratings = useSelector(state => state.ratings.ratings);
 
     const {isLoggedIn} = useSelector(state => state.login);
     const {data: product, isLoading} = useGetProductQuery(id);
+    const {data: ratings, isSuccess} = useReviewsQuery(id);
+    const [createReview] = useCreateReviewMutation();
 
     useEffect(() => {
         if (product && isLoggedIn) {
@@ -50,15 +49,22 @@ function ProductPage() {
         e.preventDefault();
         const title = document.getElementById("title").value;
         const description = document.getElementById("description").value;
-        const rating = document.querySelector('input[name="rating"]:checked').value;
+        const stars = document.querySelector('input[name="rating"]:checked').value;
+
         const review = {
-            id,
-            title,
-            description,
-            rating,
+            title: title,
+            description: description,
+            stars: parseInt(stars),
         }
-        const newRatings = [...ratings, review];
-        dispatch(setRatings(newRatings));
+
+        const params = {
+            productId: id,
+            review: review,
+        }
+
+        const newReview = createReview(params);
+        console.log(newReview);
+
         const reviewContainer = document.querySelector(".review-container");
         reviewContainer.classList.remove("review-container-active");
     }
@@ -113,16 +119,17 @@ function ProductPage() {
             <div className="product-page">
                 {isLoading ? <Loader/> : <Product product={product}/>}
             </div>
-            {ratings.filter(rating => rating.id === id).length > 0 && <h1 id="reviews-header">Reviews:</h1>}
+            {isSuccess && ratings.filter(rating => rating.productId === id).length > 0 && <h1 id="reviews-header">Reviews:</h1>}
             <div className="ratings">
-                {ratings.filter(rating => rating.id === id).map(rating => {
+                {isSuccess && ratings.map(rating => {
                     return (
                         <div className="rating" key={rating.title}>
                             <h3 className="rating-title">{rating.title}</h3>
+                            <h4 className="rating-author">{rating.name}</h4>
                             <p className="rating-description">{rating.description}</p>
                             <h3 className="product-rating">
                                 <span className="star-rating" style={{
-                                    "--rating": rating.rating,
+                                    "--rating": rating.stars,
                                 }}>
                                 </span>
                             </h3>

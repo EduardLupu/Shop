@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import '../styles/cart.css';
 import CartItem from "./cartItem";
 import {setCartProducts, setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
@@ -9,7 +9,7 @@ import {useEffect, useRef} from "react";
 
 function Cart() {
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const {data: response,isLoading, isSuccess} = useInitCartProductsQuery();
     const {total, totalQuantity, totalProducts, cartProducts} = useSelector(state => state.cart);
     const isMounted = useRef(false);
@@ -30,6 +30,21 @@ function Cart() {
         }
     }, [dispatch, response, total, totalQuantity, totalProducts, cartProducts]);
 
+    const handleClickBuy = () => {
+        if (totalQuantity === 0) {
+            alert("You must add at least one product to cart!");
+            return;
+        }
+        const order =  {
+            total: total,
+            totalQuantity: totalQuantity,
+            totalProducts: totalProducts,
+            products: cartProducts,
+        };
+
+        navigate('/order', {state: {order}});
+    }
+
     return (
         <div className="cart-page">
             <Link to="/shop"><h1 className="account-logo">&spades;</h1></Link>
@@ -41,12 +56,12 @@ function Cart() {
             </div>
             {
                 <div className="totals">
+                    <h3 className="cart-page-total">Total: ${total}</h3>
                     <h3 className="cart-page-total">Total quantity: {totalQuantity}</h3>
                     <h3 className="cart-page-total">Total products: {totalProducts}</h3>
-                    <h3 className="cart-page-total">Total: ${total}</h3>
                 </div>
             }
-            <button className="buy-button">Buy!</button>
+            <button className="buy-button" onClick={handleClickBuy}>Buy!</button>
         </div>
     )
 }

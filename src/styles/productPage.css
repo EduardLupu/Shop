@@ -85,13 +85,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    padding: 2rem 0 2.3rem 0;
 }
 
 .radios input {
     width: 2rem;
     height: 2rem;
-    margin: 1rem;
 }
 
 .radios input:hover {
