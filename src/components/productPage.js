@@ -3,7 +3,7 @@ import {Product} from "./product";
 import '../styles/productPage.css';
 import {Loader} from "./loader";
 import Header from "./header";
-import {useCreateReviewMutation, useGetProductQuery, useReviewsQuery} from "../app/apiSlice";
+import {useCreateReviewMutation, useDeleteReviewMutation, useGetProductQuery, useReviewsQuery} from "../app/apiSlice";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
 import {faCircleChevronLeft, faCircleChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
@@ -17,6 +17,7 @@ function ProductPage() {
     const {data: product, isLoading} = useGetProductQuery(id);
     const {data: ratings, isSuccess} = useReviewsQuery(id);
     const [createReview] = useCreateReviewMutation();
+    const [deleteReview] = useDeleteReviewMutation();
 
     useEffect(() => {
         if (product && isLoggedIn) {
@@ -44,13 +45,17 @@ function ProductPage() {
         return;
     }
 
-
-    const handleFormSubmit = (e, id) => {
+    const handleClickDeleteReview = async (ratingId) => {
+        const params = {
+            ratingId: ratingId,
+        }
+        await deleteReview(params);
+    }
+    const handleFormSubmit = async (e, id) => {
         e.preventDefault();
         const title = document.getElementById("title").value;
         const description = document.getElementById("description").value;
         const stars = document.querySelector('input[name="rating"]:checked').value;
-
         const review = {
             title: title,
             description: description,
@@ -62,12 +67,13 @@ function ProductPage() {
             review: review,
         }
 
-        const newReview = createReview(params);
+        const newReview = await createReview(params);
         console.log(newReview);
 
         const reviewContainer = document.querySelector(".review-container");
         reviewContainer.classList.remove("review-container-active");
     }
+
     return (
         <div className="product-page-container">
             <Header/>
@@ -133,6 +139,9 @@ function ProductPage() {
                                 }}>
                                 </span>
                             </h3>
+                            {rating.userId === localStorage.getItem("userId") && <button className="delete-review-button" onClick={() => {
+                                handleClickDeleteReview(rating._id);
+                            }}>X</button>}
                         </div>
                     )
                 })

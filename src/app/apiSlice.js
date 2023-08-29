@@ -182,6 +182,16 @@ export const apiSlice = createApi({
                 }
             }),
         }),
+        deleteReview: builder.mutation({
+            query: (params) => ({
+                url: `/reviews/${params.ratingId}`,
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }),
+            invalidatesTags: ['Reviews'],
+            }),
     }),
 });
 
@@ -203,4 +213,5 @@ export const {
     useGetProductsBySearchQuery,
     useCreateOrderMutation,
     useGetOrdersQuery,
+    useDeleteReviewMutation,
 } = apiSlice;

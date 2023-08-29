@@ -34,6 +34,7 @@ function Account() {
                         <div className="account-info">
                             <img src={response.image} alt="Robohash avatar"/>
                             <h6>{response._id}</h6>
+                            {localStorage.setItem("userId", response._id)}
                             <h2>{response.firstName} {response.lastName}</h2>
                             <h4>{response.email}</h4>
                             <h5>Age: {getAge(response.birthDate)}</h5>
