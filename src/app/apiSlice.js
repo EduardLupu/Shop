@@ -1,4 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
@@ -134,7 +135,25 @@ export const apiSlice = createApi({
                 body: JSON.stringify(params.review),
             }),
             invalidatesTags: ['Reviews'],
+        }),
+        getCategories: builder.query({
+            query: () => ({
+                url: '/categories',
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             }),
+        }),
+        getProductsByCategory: builder.query({
+            query: (category) => ({
+                url: `/products/category/${category}`,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }),
+        }),
     }),
 });
 
@@ -151,4 +170,6 @@ export const {
     useLogoutMutation,
     useReviewsQuery,
     useCreateReviewMutation,
+    useGetCategoriesQuery,
+    useGetProductsByCategoryQuery,
 } = apiSlice;

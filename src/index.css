@@ -446,10 +446,6 @@ ul.top-nav li.icon {
     text-align: center;
 }
 
-.filter-bar:focus {
-    outline: none;
-}
-
 .hovered {
     scale: 1.01;
 }
@@ -457,7 +453,7 @@ ul.top-nav li.icon {
 .item-limit {
     font-size: 1.5rem;
     font-family: 'Roboto', sans-serif;
-    position: fixed;
+    display: flex;
 }
 
 .item-limit select {

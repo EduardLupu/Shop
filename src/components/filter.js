@@ -1,11 +1,10 @@
 import React, {useState} from "react";
-export default function Filter({ onFilterChange }) {
-    const [filterValue, setFilterValue] = useState("");
-
+export default function Filter({ onSearchChange }) {
+    const [searchValue, setSearchValue] = useState("");
     const handleChange = (event) => {
         const value = event.target.value;
-        setFilterValue(value);
-        onFilterChange(value);
+        setSearchValue(value);
+        onSearchChange(value);
     };
 
     return (
@@ -13,8 +12,8 @@ export default function Filter({ onFilterChange }) {
             <input
                 className="filter-bar"
                 type="search"
-                placeholder="Filter by category/title..."
-                value={filterValue}
+                placeholder="Search by any text field..."
+                value={searchValue}
                 onChange={handleChange}
             />
         </>

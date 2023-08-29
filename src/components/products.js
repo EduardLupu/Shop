@@ -1,19 +1,21 @@
 import {Product} from "./product";
-import Filter from "./filter";
 import ItemLimit from "./limit";
 import {useDispatch, useSelector} from "react-redux";
-import {setFilterValue, setOffset} from "../app/itemSlice";
+import {setOffset} from "../app/itemSlice";
 import {useEffect, useRef} from "react";
-import {useGetProductsQuery} from "../app/apiSlice";
+import {useGetProductsByCategoryQuery, useGetProductsQuery} from "../app/apiSlice";
+
 export default function Products() {
-    const dispatch = useDispatch();
-    const {limit, filterValue, offset} = useSelector((state) => state.item);
-    const {data: response, isFetching,} = useGetProductsQuery({limit: limit, skip: offset});
-    const isMounted = useRef(false);
+    const dispatch = useDispatch(),
+        {limit, offset, category, searchValue} = useSelector((state) => state.item),
+        {data: response, isFetching} = useGetProductsQuery({limit: limit, skip: offset}),
+        isMounted = useRef(false),
+        {data: categoryProducts, isSuccess} = useGetProductsByCategoryQuery(category, {
+            skip: category === "All products" || category === ""});
 
-    const products = response ?? [];
+    let products = response ?? [];
 
-    useEffect(() => {
+    useEffect(() =>  {
         const onScroll = () => {
             const scrolledToBottom =
                 window.innerHeight + window.scrollY >= document.body.offsetHeight;
@@ -24,35 +26,26 @@ export default function Products() {
             }
         };
 
-        document.addEventListener("scroll", onScroll);
+        if (category === "All products" || category === "") {
+            document.addEventListener("scroll", onScroll);
+        }
 
         return function () {
             document.removeEventListener("scroll", onScroll);
             isMounted.current = false;
         };
-    }, [offset, isFetching]);
 
-    const handleFilterChange = (value) => {
-        dispatch(setFilterValue(value));
-    };
-
-
-    const filteredProducts = products.filter((product) => {
-        const {category, title} = product;
-        const lowerCaseFilterValue = filterValue.toLowerCase();
-        return (
-            category.toLowerCase().includes(lowerCaseFilterValue) ||
-            title.toLowerCase().includes(lowerCaseFilterValue)
-        );
-    });
+    }, [offset, isFetching, category]);
 
     return (
         <>
-            <Filter onFilterChange={handleFilterChange}/>
-            <ItemLimit />
+            <ItemLimit/>
             <div className="products">
                 {
-                    filteredProducts.map((product) => (
+                    isSuccess ? categoryProducts.map((product) => (
+                        <Product key={product.id} product={product}/>
+                    )) :
+                    products.map((product) => (
                         <Product key={product.id} product={product}/>
                     ))
                 }
