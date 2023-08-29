@@ -154,6 +154,15 @@ export const apiSlice = createApi({
                 }
             }),
         }),
+        getProductsBySearch: builder.query({
+            query: (searchValue) => ({
+                url: `/products/search/${searchValue}`,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }),
+        }),
     }),
 });
 
@@ -172,4 +181,5 @@ export const {
     useCreateReviewMutation,
     useGetCategoriesQuery,
     useGetProductsByCategoryQuery,
+    useGetProductsBySearchQuery,
 } = apiSlice;

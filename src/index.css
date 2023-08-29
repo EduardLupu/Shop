@@ -126,7 +126,7 @@ ul.top-nav li.icon {
     border-radius: 2rem;
     line-height: 0.5rem;
     margin-inline: 3rem;
-    animation: fadeIn 1s ease-in-out;
+    /*animation: fadeIn 1s ease-in-out;*/
 }
 
 .arrow-left {
@@ -441,6 +441,7 @@ ul.top-nav li.icon {
     width: 100%;
     border: none;
     background-color: lightblue;
+    border-radius: 0;
     height: 3rem;
     font-size: 1.5rem;
     text-align: center;
@@ -531,4 +532,12 @@ ul.top-nav li.icon {
         width: 35rem;
         padding-top: 1rem;
     }
+}
+
+.categories {
+    scrollbar-width: none;
+}
+
+.categories > *::-webkit-scrollbar {
+    display: none;
 }
