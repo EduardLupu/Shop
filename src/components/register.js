@@ -103,8 +103,9 @@ function Register() {
                     lastName: formData.lastName,
                     birthDate: formData.birthDate,
                 }).unwrap();
-                sessionStorage.removeItem('token');
-                sessionStorage.setItem('token', response.token);
+                localStorage.clear();
+                localStorage.setItem('token', response.token);
+                localStorage.setItem('date', Date.now().toString());
                 dispatch(setIsLoggedIn(checkUserToken()));
             }
             catch (err)

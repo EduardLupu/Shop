@@ -5,7 +5,7 @@ export const apiSlice = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "http://localhost:8080/api",
         prepareHeaders: (headers) => {
-            const token = sessionStorage.getItem('token');
+            const token = localStorage.getItem('token');
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`);
             }
@@ -163,6 +163,25 @@ export const apiSlice = createApi({
                 }
             }),
         }),
+        createOrder: builder.mutation({
+            query: (params) => ({
+                url: `/orders`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(params.order),
+            }),
+        }),
+        getOrders: builder.query({
+            query: () => ({
+                url: `/orders`,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }),
+        }),
     }),
 });
 
@@ -182,4 +201,6 @@ export const {
     useGetCategoriesQuery,
     useGetProductsByCategoryQuery,
     useGetProductsBySearchQuery,
+    useCreateOrderMutation,
+    useGetOrdersQuery,
 } = apiSlice;

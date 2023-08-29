@@ -11,12 +11,13 @@ function Account() {
 
     const {data: response, isLoading, isSuccess} = useProfileQuery();
     const [logoutMutation] = useLogoutMutation();
+
     if (!checkUserToken()) {
         return <Navigate to={'/login'} replace={true}/>
     }
     const handleLogout = async () => {
         await logoutMutation();
-        sessionStorage.removeItem('token');
+        localStorage.clear();
         dispatch(setIsLoggedIn(checkUserToken()));
     };
 

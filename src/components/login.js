@@ -60,8 +60,9 @@ const Login = () => {
             {
                 const email = formData.username;
                 const response = await loginMutation({email: email, password: formData.password}).unwrap();
-                sessionStorage.removeItem('token');
-                sessionStorage.setItem('token', response.token);
+                localStorage.clear();
+                localStorage.setItem('token', response.token);
+                localStorage.setItem('date', Date.now().toString());
                 dispatch(setIsLoggedIn(checkUserToken()));
             }
             catch (err)

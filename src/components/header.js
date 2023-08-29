@@ -82,7 +82,7 @@ export default function Header() {
                                     <h3 className="cart-total">TOTAL: ${total}</h3>
                                 </div>
                             </div></li>
-                        <li><Link to="/shop"><FontAwesomeIcon icon={faStore} /></Link></li>
+                        <li><Link to="/orders"><FontAwesomeIcon icon={faStore} /></Link></li>
                         <li><Link to="/account"><FontAwesomeIcon icon={faUser} /></Link></li>
                     </div>
                 </ul>

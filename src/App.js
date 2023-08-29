@@ -12,10 +12,12 @@ import {setIsLoggedIn} from "./app/loginSlice";
 import checkUserToken from "./utils/checkIfLogged";
 import Register from "./components/register";
 import Order from "./components/order";
+import Orders from "./components/orders";
 
 function App() {
     const isLoggedIn = useSelector(state => state.login.isLoggedIn);
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(setIsLoggedIn(checkUserToken()));
     }, [dispatch]);
@@ -31,6 +33,7 @@ function App() {
                 <Route path="/account" element={isLoggedIn ? <Account/> : <Login/>}/>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/order" element={isLoggedIn ? <Order/> : <Login/>}/>
+                <Route path="/orders" element={isLoggedIn ? <Orders/> : <Login/>}/>
                 <Route path="*" element={<h1 style={{fontSize: "15rem"}}>Error 404: Not Found</h1>}/>
                 <Route path="/404" element={<h1 style={{fontSize: "15rem"}}>Error 404: Not Found</h1>}/>
             </Routes>
