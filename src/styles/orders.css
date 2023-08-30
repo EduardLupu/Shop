@@ -80,3 +80,42 @@
     margin-top: 0;
     color: white;
 }
+
+.selected-order-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    margin: 1rem;
+    padding: 1rem;
+    gap: 3rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    background-color: white;
+}
+
+.return-button, .deliver-button {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: black;
+    font-size: 2rem;
+}
+
+.return-button:hover, .deliver-button:hover {
+    cursor: pointer;
+    color: crimson;
+}
+
+.returned-order-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    margin: 1rem;
+    padding: 1rem;
+    gap: 3rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    background-color: white;
+}

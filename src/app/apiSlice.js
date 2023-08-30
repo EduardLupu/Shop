@@ -170,7 +170,7 @@ export const apiSlice = createApi({
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(params.order),
+                body: JSON.stringify(params.params),
             }),
         }),
         getOrders: builder.query({
@@ -181,6 +181,7 @@ export const apiSlice = createApi({
                     'Content-Type': 'application/json',
                 }
             }),
+            providesTags: ['Orders'],
         }),
         deleteReview: builder.mutation({
             query: (params) => ({
@@ -191,7 +192,7 @@ export const apiSlice = createApi({
                 }
             }),
             invalidatesTags: ['Reviews'],
-            }),
+        }),
         emptyCart: builder.mutation({
             query: () => ({
                 url: `/cart`,
@@ -201,8 +202,38 @@ export const apiSlice = createApi({
                 }
             }),
             invalidateTags: ['Cart', 'Order'],
+        }),
+        createReturn: builder.mutation({
+            query: (params) => ({
+                url: `/return`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(params),
             }),
-
+            invalidatesTags: ['Orders', 'Returns'],
+        }),
+        deliverOrder: builder.mutation({
+            query: (params) => ({
+                url: `/orders/${params.orderId}`,
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }),
+            invalidatesTags: ['Orders', 'Returns'],
+        }),
+        getReturns: builder.query({
+            query: () => ({
+                url: `/return`,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }),
+            providesTags: ['Returns'],
+        }),
     }),
 });
 
@@ -226,4 +257,7 @@ export const {
     useGetOrdersQuery,
     useDeleteReviewMutation,
     useEmptyCartMutation,
+    useCreateReturnMutation,
+    useDeliverOrderMutation,
+    useGetReturnsQuery,
 } = apiSlice;
