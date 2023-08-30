@@ -2,10 +2,12 @@ import {Link, Navigate, useNavigate} from "react-router-dom";
 import '../styles/cart.css';
 import CartItem from "./cartItem";
 import {setCartProducts, setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
-import {useInitCartProductsQuery} from "../app/apiSlice";
+import {useEmptyCartMutation, useInitCartProductsQuery} from "../app/apiSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useRef} from "react";
 import checkUserToken from "../utils/checkIfLogged";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 function Cart() {
@@ -14,6 +16,7 @@ function Cart() {
     const {data: response,isLoading, isSuccess} = useInitCartProductsQuery();
     const {total, totalQuantity, totalProducts, cartProducts} = useSelector(state => state.cart);
     const isMounted = useRef(false);
+    const [emptyCartMutation] = useEmptyCartMutation();
 
     useEffect(() => {
         if (!isMounted.current && response) {
@@ -64,6 +67,16 @@ function Cart() {
                     <h3 className="cart-page-total">Total: ${total}</h3>
                     <h3 className="cart-page-total">Total quantity: {totalQuantity}</h3>
                     <h3 className="cart-page-total">Total products: {totalProducts}</h3>
+                    <button className="empty-cart-button" onClick={async () => {
+                        const confirm = window.confirm("Are you sure you want to empty your cart?");
+                        if (confirm) {
+                            await emptyCartMutation();
+                            dispatch(setCartProducts([]));
+                            dispatch(setTotal(0));
+                            dispatch(setTotalQuantity(0));
+                            dispatch(setTotalProducts(0));
+                        }
+                    }}><FontAwesomeIcon icon={faTrash} /></button>
                 </div>
             }
             <button className="buy-button" onClick={handleClickBuy}>Buy!</button>

@@ -6,7 +6,7 @@ import Header from "./header";
 import {useCreateReviewMutation, useDeleteReviewMutation, useGetProductQuery, useReviewsQuery} from "../app/apiSlice";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
-import {faCircleChevronLeft, faCircleChevronRight, faStar} from "@fortawesome/free-solid-svg-icons";
+import {faCircleChevronLeft, faCircleChevronRight, faStar, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 function ProductPage() {
 
@@ -46,10 +46,13 @@ function ProductPage() {
     }
 
     const handleClickDeleteReview = async (ratingId) => {
-        const params = {
-            ratingId: ratingId,
+        const confirmDelete = window.confirm("Are you sure you want to delete this review?");
+        if (confirmDelete) {
+            const params = {
+                ratingId: ratingId,
+            }
+            await deleteReview(params);
         }
-        await deleteReview(params);
     }
     const handleFormSubmit = async (e, id) => {
         e.preventDefault();
@@ -141,7 +144,7 @@ function ProductPage() {
                             </h3>
                             {rating.userId === localStorage.getItem("userId") && <button className="delete-review-button" onClick={() => {
                                 handleClickDeleteReview(rating._id);
-                            }}>X</button>}
+                            }}><FontAwesomeIcon icon={faTrash} /></button>}
                         </div>
                     )
                 })

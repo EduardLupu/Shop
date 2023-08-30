@@ -192,6 +192,17 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Reviews'],
             }),
+        emptyCart: builder.mutation({
+            query: () => ({
+                url: `/cart`,
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }),
+            invalidateTags: ['Cart', 'Order'],
+            }),
+
     }),
 });
 
@@ -214,4 +225,5 @@ export const {
     useCreateOrderMutation,
     useGetOrdersQuery,
     useDeleteReviewMutation,
+    useEmptyCartMutation,
 } = apiSlice;

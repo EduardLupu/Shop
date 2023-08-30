@@ -150,6 +150,17 @@
     cursor: pointer;
 }
 
+.empty-cart-button {
+    background-color: transparent;
+    border: none;
+    font-size: 2.5rem;
+}
+
+.empty-cart-button:hover {
+    color: crimson;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 850px) {
     .cart-page-item {
         display: flex;
