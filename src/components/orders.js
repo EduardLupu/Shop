@@ -103,6 +103,7 @@ function Orders() {
                     {
                         !isLoading && isSuccess && selected !== -1 && orders[selected].orderStatus.includes("returned") &&
                         returns.map((returnedItem) => (
+                            returnedItem.orderId === orders[selected]._id &&
                             <div className={"selected-order-item"} key={returnedItem.product._id}>
                                 <img className="cart-page-item-image" src={returnedItem.product.image}
                                      alt={returnedItem.product.title}/>
