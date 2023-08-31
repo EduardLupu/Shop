@@ -164,14 +164,18 @@ export const apiSlice = createApi({
             }),
         }),
         createOrder: builder.mutation({
-            query: (params) => ({
-                url: `/orders`,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(params.params),
-            }),
+            query: (params) => {
+                console.log(params);
+                return {
+                    url: `/orders`,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(params.order),
+                }
+            },
+            invalidatesTags: ['Orders'],
         }),
         getOrders: builder.query({
             query: () => ({

@@ -84,9 +84,9 @@ const Login = () => {
     };
 
     return (
-        <>
-            <p className="account-page-logo"><Link to="/">&spades;</Link></p>
+        <div className={"login-page"}>
             <div className="login-container">
+                <p className="order-logo"><Link to="/">&spades;</Link></p>
                 <h1>Login to Edi's Shop</h1>
                 <form className="login-form" onSubmit={handleSubmit}>
                     <div className="input-group">
@@ -116,7 +116,7 @@ const Login = () => {
                     <Link to="/register"><button className="login-submit">Register</button></Link>
                 </form>
             </div>
-        </>
+        </div>
     );
 };
 

@@ -16,20 +16,14 @@
 .cart-page-items {
     display: flex;
     flex-direction: column-reverse;
-    height: 80vh;
+    height: 73vh;
     overflow-y: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.cart-page-items::-webkit-scrollbar {
-    display: none;
 }
 
 .cart-page-item {
     display: flex;
     flex-direction: row;
-    padding: 5rem;
+    padding: 2rem;
     justify-content: space-between;
 }
 

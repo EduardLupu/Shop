@@ -4,6 +4,7 @@ import {useDispatch} from "react-redux";
 import {useRegisterMutation} from "../app/apiSlice";
 import checkUserToken from "../utils/checkIfLogged";
 import {setIsLoggedIn} from "../app/loginSlice";
+import '../styles/register.css';
 
 function Register() {
     const dispatch = useDispatch();
@@ -27,7 +28,7 @@ function Register() {
 
     const validateForm = () => {
         let valid = true;
-        const newErrors = { ...errors };
+        const newErrors = {...errors};
 
         if (formData.username.trim() === '') {
             newErrors.username = 'Username is required';
@@ -39,16 +40,14 @@ function Register() {
         if (formData.firstName.trim() === '') {
             newErrors.firstName = 'First name is required';
             valid = false;
-        }
-        else {
+        } else {
             newErrors.firstName = '';
         }
 
         if (formData.lastName.trim() === '') {
             newErrors.lastName = 'Last name is required';
             valid = false;
-        }
-        else {
+        } else {
             newErrors.lastName = '';
         }
 
@@ -67,8 +66,7 @@ function Register() {
         if (formData.repeatPassword === '') {
             newErrors.repeatPassword = 'Repeat password is required';
             valid = false;
-        }
-        else if (formData.repeatPassword !== formData.password) {
+        } else if (formData.repeatPassword !== formData.password) {
             newErrors.repeatPassword = 'Passwords do not match';
             valid = false;
         }
@@ -94,8 +92,7 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            try
-            {
+            try {
                 const response = await register({
                     email: formData.username,
                     password: formData.password,
@@ -107,9 +104,7 @@ function Register() {
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('date', Date.now().toString());
                 dispatch(setIsLoggedIn(checkUserToken()));
-            }
-            catch (err)
-            {
+            } catch (err) {
                 console.log(err);
                 alert(`Error: ${err.status}: ${err.data.message}`);
             }
@@ -118,7 +113,7 @@ function Register() {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -126,84 +121,79 @@ function Register() {
     };
 
     return (
-        <>
-            <p className="account-page-logo"><Link to="/">&spades;</Link></p>
-            <div className="login-container">
-                <h1>Register to Edi's Shop</h1>
-                <form className="login-form" onSubmit={handleSubmit}>
-                    <div className="input-group">
-                        <label htmlFor="username">Email</label>
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleInputChange}
-                        />
-                        {errors.username && <p className="error">{errors.username}</p>}
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="firstName">First Name</label>
-                        <input
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleInputChange}
-                        />
-                        {errors.firstName && <p className="error">{errors.firstName}</p>}
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="lastName">Last Name</label>
-                        <input
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleInputChange}
-                        />
-                        {errors.lastName && <p className="error">{errors.lastName}</p>}
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="birthDate">Birth Date</label>
-                        <input
-                            type="date"
-                            id="birthDate"
-                            name="birthDate"
-                            value={formData.birthDate}
-                            onChange={handleInputChange}
-                        />
-                        {errors.birthDate && <p className="error">{errors.birthDate}</p>}
-                    </div>
-
-
-
-                    <div className="input-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleInputChange}
-                        />
-                        {errors.password && <p className="error">{errors.password}</p>}
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="repeatPassword">Repeat Password</label>
-                        <input
-                            type="password"
-                            id="repeatPassword"
-                            name="repeatPassword"
-                            value={formData.repeatPassword}
-                            onChange={handleInputChange}
-                        />
-                        {errors.repeatPassword && <p className="error">{errors.repeatPassword}</p>}
-                    </div>
-                    <button className="login-submit" type="submit">Register</button>
-                </form>
-            </div>
-        </>
+        <div className="register-container">
+            <p className={"order-logo"}><Link to="/">&spades;</Link></p>
+            <h1>Register to Edi's Shop</h1>
+            <form className="login-form" onSubmit={handleSubmit}>
+                <div className="input-group">
+                    <label htmlFor="username">Email</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleInputChange}
+                    />
+                    {errors.username && <p className="error">{errors.username}</p>}
+                </div>
+                <div className="input-group">
+                    <label htmlFor="firstName">First Name</label>
+                    <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                    />
+                    {errors.firstName && <p className="error">{errors.firstName}</p>}
+                </div>
+                <div className="input-group">
+                    <label htmlFor="lastName">Last Name</label>
+                    <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                    />
+                    {errors.lastName && <p className="error">{errors.lastName}</p>}
+                </div>
+                <div className="input-group">
+                    <label htmlFor="birthDate">Birth Date</label>
+                    <input
+                        type="date"
+                        id="birthDate"
+                        name="birthDate"
+                        value={formData.birthDate}
+                        onChange={handleInputChange}
+                    />
+                    {errors.birthDate && <p className="error">{errors.birthDate}</p>}
+                </div>
+                <div className="input-group">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                    />
+                    {errors.password && <p className="error">{errors.password}</p>}
+                </div>
+                <div className="input-group">
+                    <label htmlFor="repeatPassword">Repeat Password</label>
+                    <input
+                        type="password"
+                        id="repeatPassword"
+                        name="repeatPassword"
+                        value={formData.repeatPassword}
+                        onChange={handleInputChange}
+                    />
+                    {errors.repeatPassword && <p className="error">{errors.repeatPassword}</p>}
+                </div>
+                <button className="login-submit" type="submit">Register</button>
+            </form>
+        </div>
     );
 
 }

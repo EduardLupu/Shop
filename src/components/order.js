@@ -12,7 +12,7 @@ function Order() {
         return <Navigate to={"/shop"} replace={true}/>
     }
 
-    const handleSubmitOrder = (e) => {
+    const handleSubmitOrder = async (e) => {
         e.preventDefault();
         const shippingAddress = e.target.address.value,
             paymentMethod = e.target.payment.value,
@@ -20,7 +20,7 @@ function Order() {
                 shippingAddress,
                 paymentMethod,
             }
-        createOrder({order});
+        await createOrder({order});
         alert("Order created successfully!");
         window.location.reload();
     }

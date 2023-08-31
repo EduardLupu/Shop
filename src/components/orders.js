@@ -6,6 +6,7 @@ import checkUserToken from "../utils/checkIfLogged";
 import {faArrowRotateLeft, faTruck} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useCreateReturnMutation} from "../app/apiSlice";
+
 function Orders() {
 
     const {data: orders, isLoading} = useGetOrdersQuery();
@@ -13,16 +14,25 @@ function Orders() {
     const {data: returns, isSuccess} = useGetReturnsQuery();
     const [createReturn] = useCreateReturnMutation();
     const [deliverOrder] = useDeliverOrderMutation();
+
     if (!checkUserToken()) {
         return <Navigate to={'/login'} replace={true}/>
+    }
+
+    if (!isLoading && orders.length === 0) {
+        return (
+            <div className={"centered-div"}>
+                <h1 className={"order-logo"}>You have no orders!</h1>
+                <p className={"order-logo"}><Link to="/shop">&spades;</Link></p>
+            </div>
+        )
     }
 
     const handleSelected = (e) => {
         const order = e.target.closest(".order");
         if (order) {
             setSelected(Array.from(order.parentNode.children).indexOf(order));
-        }
-        else {
+        } else {
             setSelected(-1);
         }
     }
@@ -50,7 +60,7 @@ function Orders() {
                                         }
                                         deliverOrder(params);
                                     }
-                                }}><FontAwesomeIcon icon={faTruck} /></button>
+                                }}><FontAwesomeIcon icon={faTruck}/></button>
                             }
                         </div>
                     ))
@@ -69,8 +79,7 @@ function Orders() {
                                 <h3 className="cart-page-item-counter">{product.quantity}</h3>
                                 {
                                     orders[selected].orderStatus !== "pending" &&
-                                    <button className="return-button" onClick={() =>
-                                    {
+                                    <button className="return-button" onClick={() => {
                                         const reason = prompt("Why do you want to return this product?");
                                         if (reason) {
                                             const params = {
@@ -80,7 +89,7 @@ function Orders() {
                                             }
                                             createReturn(params);
                                         }
-                                    }}><FontAwesomeIcon icon={faArrowRotateLeft} /></button>
+                                    }}><FontAwesomeIcon icon={faArrowRotateLeft}/></button>
                                 }
                             </div>
                         ))
@@ -91,20 +100,21 @@ function Orders() {
                     <h1>Returned Items</h1>
                 }
                 <div className={"returned-items"}>
-                {
-                    !isLoading && isSuccess && selected !== -1 && orders[selected].orderStatus.includes("returned") &&
-                    returns.map((returnedItem) => (
-                        <div className={"selected-order-item"} key={returnedItem.product._id}>
-                            <img className="cart-page-item-image" src={returnedItem.product.image} alt={returnedItem.product.title}/>
-                            <h3 className="cart-page-item-title">{returnedItem.product.title}</h3>
-                            <h3 className="cart-page-item-price">${returnedItem.product.price}</h3>
-                            <h2>{returnedItem.reason}</h2>
-                            <h2>{returnedItem.createdAt.slice(0, 10)}</h2>
+                    {
+                        !isLoading && isSuccess && selected !== -1 && orders[selected].orderStatus.includes("returned") &&
+                        returns.map((returnedItem) => (
+                            <div className={"selected-order-item"} key={returnedItem.product._id}>
+                                <img className="cart-page-item-image" src={returnedItem.product.image}
+                                     alt={returnedItem.product.title}/>
+                                <h3 className="cart-page-item-title">{returnedItem.product.title}</h3>
+                                <h3 className="cart-page-item-price">${returnedItem.product.price}</h3>
+                                <h2>{returnedItem.reason}</h2>
+                                <h2>{returnedItem.createdAt.slice(0, 10)}</h2>
 
 
-                        </div>
-                    ))
-                }
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
         </div>

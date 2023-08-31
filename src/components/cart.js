@@ -4,7 +4,7 @@ import CartItem from "./cartItem";
 import {setCartProducts, setTotal, setTotalProducts, setTotalQuantity} from "../app/cartSlice";
 import {useEmptyCartMutation, useInitCartProductsQuery} from "../app/apiSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import checkUserToken from "../utils/checkIfLogged";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -36,6 +36,15 @@ function Cart() {
 
     if (!checkUserToken()) {
         return <Navigate to={'/login'} replace={true}/>
+    }
+
+    if (isSuccess && totalQuantity === 0) {
+        return (
+            <div className={"centered-div"}>
+                <h1 className={"order-logo"}>You have no items in the cart!</h1>
+                <p className={"order-logo"}><Link to="/shop">&spades;</Link></p>
+            </div>
+        )
     }
 
     const handleClickBuy = () => {
