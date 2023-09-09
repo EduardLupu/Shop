@@ -2,9 +2,32 @@
 
 I implemented the functionalities of an online shop application using React JS.
 
+The frontend is deployed on [this link](https://eduardlupu.github.io/shop/).
+
 The backend is on [this repository](https://github.com/EduardLupu/shop_backend).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Functionalities
+
+- Login
+- Register
+- View products
+- Add products to cart
+- View cart
+- Remove products from cart
+- Checkout
+- View orders
+- View order details
+- Logout
+- View profile
+- Edit profile
+- Add reviews
+- View reviews
+- Delete reviews
+- View products by category
+- View products by search
+- Infinite scroll for products
 
 ## Photos
 
